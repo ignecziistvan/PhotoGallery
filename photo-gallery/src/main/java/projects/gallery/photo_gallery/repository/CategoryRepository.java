@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import projects.gallery.photo_gallery.model.Category;
 
 @Repository
-public interface MediaRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }
