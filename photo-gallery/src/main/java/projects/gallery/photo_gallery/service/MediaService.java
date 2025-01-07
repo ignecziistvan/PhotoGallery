@@ -9,4 +9,5 @@ public interface MediaService {
     CategoryDto getCategoryById(Long id);
     List<CategoryDto> getAllCategories();
     List<PhotoDto> getPhotosOfCategory(Long categoryId);
+    PhotoDto getPhotoById(Long id);
 }

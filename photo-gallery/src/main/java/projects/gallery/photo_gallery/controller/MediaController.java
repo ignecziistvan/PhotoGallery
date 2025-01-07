@@ -31,4 +31,9 @@ public class MediaController {
     public List<PhotoDto> getAllPhotos(@PathVariable Long categoryId) {
         return mediaService.getPhotosOfCategory(categoryId);
     }
+
+    @GetMapping("/photos/{photoId}")
+    public PhotoDto getPhoto(@PathVariable Long photoId) {
+        return mediaService.getPhotoById(photoId);
+    }
 }
