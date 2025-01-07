@@ -2,9 +2,9 @@ package projects.gallery.photo_gallery.exception;
 
 import java.util.Map;
 
-public class NotFoundException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
     private Map<String, String> errors;
-    public NotFoundException(String message) {
+    public BadRequestException(String message) {
         super(message);
     }
 
