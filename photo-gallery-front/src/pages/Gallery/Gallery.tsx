@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getCategory, getCategoryByAccessUrl } from "../../services/CategoryService";
+import { getCategoryByAccessUrl } from "../../services/CategoryService";
 import { Category } from "../../models/Category";
 import css from './Gallery.module.css';
 import { Photo } from "../../models/Photo";
 import { getPhotosOfCategory } from "../../services/PhotoService";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import 'react-photo-view/dist/react-photo-view.css';
 
 export default function GalleryComponent() {
   const [category, setCategory] = useState<Category>();
@@ -32,15 +34,19 @@ export default function GalleryComponent() {
         <p>{ category?.description }</p>
       </section>
 
-      <div className={css.photoGrid}>
-        {photos.map(photo => {
-          return (
-            <div className={css.imgContainer}>
-              <img src={ photo.thumbnailUrl } alt={ category?.name } />
-            </div>
-          );
-        })}
-      </div>
+      <PhotoProvider>
+        <div className={css.photoGrid}>
+          {photos.map(photo => {
+            return (
+              <PhotoView src={photo.url}>
+                <div className={css.imgContainer}>
+                  <img src={ photo.thumbnailUrl } alt={ category?.name } />
+                </div>
+              </PhotoView>
+            );
+          })}
+        </div>
+      </PhotoProvider>
     </>
   );
 }
