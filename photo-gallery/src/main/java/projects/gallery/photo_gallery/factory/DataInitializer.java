@@ -43,6 +43,7 @@ public class DataInitializer implements CommandLineRunner {
         weddingCat.setPhotos(List.of(
                 wedding1, wedding2, wedding3
         ));
+        weddingCat.setThumbnailPhoto(wedding1);
 
 
 
@@ -70,7 +71,7 @@ public class DataInitializer implements CommandLineRunner {
         foodNDrinksCat.setPhotos(List.of(
                 foodNDrinksCat1, foodNDrinksCat2, foodNDrinksCat3, foodNDrinksCat4
         ));
-
+        foodNDrinksCat.setThumbnailPhoto(foodNDrinksCat1);
 
 
         Photo chrsitmas1 = new Photo(
@@ -100,6 +101,7 @@ public class DataInitializer implements CommandLineRunner {
         christmasCat.setPhotos(List.of(
                 chrsitmas1, chrsitmas2, chrsitmas3, chrsitmas4
         ));
+        christmasCat.setThumbnailPhoto(chrsitmas1);
 
 
         repository.save(weddingCat);
