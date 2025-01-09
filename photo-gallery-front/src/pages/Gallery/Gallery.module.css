@@ -7,10 +7,10 @@
 }
 
 .photoGrid {
-  width: 100%;
   display: grid;
-  grid-template-columns: 12fr 12fr 12fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1em;
+  margin: 1em;
 }
 
 .imgContainer {
