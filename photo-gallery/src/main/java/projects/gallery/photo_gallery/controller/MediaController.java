@@ -39,7 +39,7 @@ public class MediaController {
     }
 
     @PostMapping("/categories/{categoryId}/upload")
-    public String uploadPhotos(@PathVariable Long categoryId, MultipartFile[] files) {
+    public String uploadPhotos(@PathVariable Long categoryId, @RequestParam("files[]") MultipartFile[] files) {
         photoUploadService.upload(categoryId, files);
         return "Successfully uploaded photos";
     }

@@ -15,6 +15,7 @@ import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
         );
 
         List<String> invalidFileNames = new ArrayList<>();
+        System.out.println(Arrays.toString(files));
         for (MultipartFile file : files) {
             try {
                 validateFileType(file);
