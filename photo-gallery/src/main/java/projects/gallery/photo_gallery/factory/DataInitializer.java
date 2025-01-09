@@ -27,16 +27,19 @@ public class DataInitializer implements CommandLineRunner {
         Photo wedding1 = new Photo(
                 "https://cdn0.hitched.co.uk/article/7500/3_2/960/jpg/150057-unique-wedding-ideas.jpeg",
                 "https://cdn0.hitched.co.uk/article/7500/3_2/960/jpg/150057-unique-wedding-ideas.jpeg",
+                null,
                 weddingCat
         );
         Photo wedding2 = new Photo(
                 "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/0b84/live/67b226a0-cab3-11ef-8fb8-75874e244aea.jpg",
                 "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/0b84/live/67b226a0-cab3-11ef-8fb8-75874e244aea.jpg",
+                null,
                 weddingCat
         );
         Photo wedding3 = new Photo(
                 "https://x.dkphoto.ie/wp-content/uploads/2024/03/Brides-Guide-to-Selecting-the-Perfect-Wedding-Dress.jpg.webp",
                 "https://x.dkphoto.ie/wp-content/uploads/2024/03/Brides-Guide-to-Selecting-the-Perfect-Wedding-Dress.jpg.webp",
+                null,
                 weddingCat
         );
 
@@ -50,21 +53,25 @@ public class DataInitializer implements CommandLineRunner {
         Photo foodNDrinksCat1 = new Photo(
                 "https://www.beanilla.com/wp/wp-content/uploads/2022/06/RefreshingDrinks-1024x683.jpg",
                 "https://www.beanilla.com/wp/wp-content/uploads/2022/06/RefreshingDrinks-1024x683.jpg",
+                null,
                 foodNDrinksCat
         );
         Photo foodNDrinksCat2 = new Photo(
                 "https://www.acouplecooks.com/wp-content/uploads/2021/06/Strawberry-Water-006.jpg",
                 "https://www.acouplecooks.com/wp-content/uploads/2021/06/Strawberry-Water-006.jpg",
+                null,
                 weddingCat
         );
         Photo foodNDrinksCat3 = new Photo(
                 "https://www.tasteofhome.com/wp-content/uploads/2024/05/Sweet-Rum-Punch_EXPS_FT24_273648_EC_050224_4.jpg",
                 "https://www.tasteofhome.com/wp-content/uploads/2024/05/Sweet-Rum-Punch_EXPS_FT24_273648_EC_050224_4.jpg",
+                null,
                 foodNDrinksCat
         );
         Photo foodNDrinksCat4 = new Photo(
                 "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-802667754.jpg?c=original",
                 "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-802667754.jpg?c=original",
+                null,
                 foodNDrinksCat
         );
 
@@ -77,24 +84,28 @@ public class DataInitializer implements CommandLineRunner {
         Photo chrsitmas1 = new Photo(
                 "https://cdn.britannica.com/62/147462-050-3C0642C4/front-yard-Christmas.jpg",
                 "https://cdn.britannica.com/62/147462-050-3C0642C4/front-yard-Christmas.jpg",
+                null,
                 christmasCat
         );
 
         Photo chrsitmas2 = new Photo(
                 "https://cdn.britannica.com/38/196638-050-94E05EF4/Santa-Claus.jpg",
                 "https://cdn.britannica.com/38/196638-050-94E05EF4/Santa-Claus.jpg",
+                null,
                 christmasCat
         );
 
         Photo chrsitmas3 = new Photo(
                 "https://www.teachingcatholickids.com/wp-content/uploads/2015/12/baby-4258530_1920.jpg",
                 "https://www.teachingcatholickids.com/wp-content/uploads/2015/12/baby-4258530_1920.jpg",
+                null,
                 christmasCat
         );
 
         Photo chrsitmas4 = new Photo(
                 "https://www.myjewishlearning.com/wp-content/uploads/2005/12/pareve-christmas.jpg",
                 "https://www.myjewishlearning.com/wp-content/uploads/2005/12/pareve-christmas.jpg",
+                null,
                 christmasCat
         );
 

@@ -8,6 +8,7 @@ import projects.gallery.photo_gallery.exception.NotFoundException;
 import projects.gallery.photo_gallery.model.Category;
 import projects.gallery.photo_gallery.repository.CategoryRepository;
 import projects.gallery.photo_gallery.repository.PhotoRepository;
+import projects.gallery.photo_gallery.service.interfaces.MediaService;
 
 import java.util.List;
 

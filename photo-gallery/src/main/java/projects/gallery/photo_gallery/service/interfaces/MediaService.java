@@ -1,4 +1,4 @@
-package projects.gallery.photo_gallery.service;
+package projects.gallery.photo_gallery.service.interfaces;
 
 import projects.gallery.photo_gallery.dto.response.CategoryDto;
 import projects.gallery.photo_gallery.dto.response.PhotoDto;

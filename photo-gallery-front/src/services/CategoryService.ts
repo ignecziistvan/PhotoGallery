@@ -3,8 +3,6 @@ import { Category } from "../models/Category";
 
 export async function getCategories(): Promise<Category[]> {
   const response = await httpRequest.get('/media/categories');
-  console.log(response.data);
-  
   return response.data || [];
 }
 

@@ -44,7 +44,7 @@ export default function ImageUploader({ categoryId } : { categoryId: number }) {
 
         <button 
           className={css.uploadButton} 
-          onClick={() => uploadFiles(categoryId, files, setPosting)}
+          onClick={() => uploadFiles(categoryId, files, setPosting, setFiles)}
         >Upload</button>
       </div>
 

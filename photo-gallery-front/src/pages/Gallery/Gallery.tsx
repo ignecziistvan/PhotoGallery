@@ -38,7 +38,7 @@ export default function GalleryComponent() {
         <div className={css.photoGrid}>
           {photos.map(photo => {
             return (
-              <PhotoView src={photo.url}>
+              <PhotoView src={photo.url} key={'photo-' + photo.id}>
                 <div className={css.imgContainer}>
                   <img src={ photo.thumbnailUrl } alt={ category?.name } />
                 </div>
