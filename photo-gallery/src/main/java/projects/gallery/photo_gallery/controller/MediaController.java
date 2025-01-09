@@ -43,4 +43,9 @@ public class MediaController {
         photoUploadService.upload(categoryId, files);
         return "Successfully uploaded photos";
     }
+
+    @DeleteMapping("/photos/{photoId}")
+    public void deletePhoto(@PathVariable Long photoId) {
+        photoUploadService.delete(photoId);
+    }
 }

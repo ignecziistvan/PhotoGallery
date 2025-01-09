@@ -23,6 +23,8 @@ public class Photo {
 
     private String thumbnailUrl;
 
+    private String cloudinaryPublicId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
@@ -32,9 +34,10 @@ public class Photo {
     @UpdateTimestamp
     private Date updatedAt;
 
-    public Photo(String url, String thumbnailUrl, Category category) {
+    public Photo(String url, String thumbnailUrl, String cloudinaryPublicId, Category category) {
         this.url = url;
         this.thumbnailUrl = thumbnailUrl;
+        this.cloudinaryPublicId = cloudinaryPublicId;
         this.category = category;
     }
 }

@@ -10,6 +10,7 @@ import projects.gallery.photo_gallery.exception.NotFoundException;
 import projects.gallery.photo_gallery.model.Category;
 import projects.gallery.photo_gallery.model.Photo;
 import projects.gallery.photo_gallery.repository.CategoryRepository;
+import projects.gallery.photo_gallery.repository.PhotoRepository;
 import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ import java.util.Map;
 public class CloudinaryPhotoUploadService implements PhotoUploadService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private PhotoRepository photoRepository;
     @Autowired
     private Cloudinary cloudinary;
     private static final List<String> SUPPORTED_IMAGE_TYPES = List.of("jpeg", "jpg", "png", "webp");
@@ -59,12 +62,16 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
                         )
                 );
 
+                System.out.println(result);
+
                 String imageUrl = result.get("secure_url").toString();
                 String thumbnailUrl = createThumbnailUrl(imageUrl);
+                String publicId = result.get("public_id").toString();
 
                 Photo photo = new Photo(
                         imageUrl,
                         thumbnailUrl,
+                        publicId,
                         category
                 );
 
@@ -78,7 +85,22 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
 
     @Override
     public void delete(Long photoId) {
+        Photo photo = photoRepository.findById(photoId).orElseThrow(
+                () -> new NotFoundException(
+                        "Photo was not found"
+                )
+        );
 
+
+        try {
+            if (photo.getCloudinaryPublicId() != null) {
+                String publicId = photo.getCloudinaryPublicId();
+                cloudinary.uploader().destroy(publicId, null);
+            }
+            photoRepository.delete(photo);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean validateFileType(MultipartFile file) {

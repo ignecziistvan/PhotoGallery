@@ -72,6 +72,7 @@ public class LocalPhotoUploadService implements PhotoUploadService {
                 Photo photo = new Photo(
                         url + categoryId + "/images/" + uniqueFileName,
                         url + categoryId + "/thumbnails/" + uniqueFileName,
+                        null,
                         category
                 );
 
