@@ -1,5 +1,7 @@
 package projects.gallery.photo_gallery.service;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +12,10 @@ import projects.gallery.photo_gallery.model.Photo;
 import projects.gallery.photo_gallery.repository.CategoryRepository;
 import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -48,8 +53,10 @@ public class LocalPhotoUploadService implements PhotoUploadService {
                 File fullImgFile = new File(directoryOfFullImage + uniqueFileName);
                 File thumbnailImgFile = new File(directoryOfThumbnailImage + uniqueFileName);
 
+                Path thumbnail = createThumbnail(file);
+
                 Files.copy(file.getInputStream(), fullImgFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(file.getInputStream(), thumbnailImgFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(thumbnail, thumbnailImgFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 Photo photo = new Photo(
                         url + categoryId + "/images/" + uniqueFileName,
@@ -100,5 +107,22 @@ public class LocalPhotoUploadService implements PhotoUploadService {
         String extension = fileName.substring(extensionIndex);
 
         return UUID.randomUUID().toString() + extension;
+    }
+
+    private Path createThumbnail(MultipartFile file) throws IOException {
+        BufferedImage image = ImageIO.read(file.getInputStream());
+        if (image == null) {
+            throw new IOException("Failed to read file as an image");
+        }
+
+        Path thumbnailTempFile = Files.createTempFile("thumbnail-", renameFileToRandomUUID(file.getOriginalFilename()));
+        Files.copy(file.getInputStream(), thumbnailTempFile, StandardCopyOption.REPLACE_EXISTING);
+
+        Thumbnails.of(image)
+                .size(500, 500)
+                .crop(Positions.CENTER)
+                .toFile(thumbnailTempFile.toFile());
+
+        return thumbnailTempFile;
     }
 }
