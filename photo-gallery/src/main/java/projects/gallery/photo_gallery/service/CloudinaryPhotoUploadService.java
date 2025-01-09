@@ -1,8 +1,8 @@
 package projects.gallery.photo_gallery.service;
 
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
+import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import projects.gallery.photo_gallery.exception.BadRequestException;
@@ -12,24 +12,19 @@ import projects.gallery.photo_gallery.model.Photo;
 import projects.gallery.photo_gallery.repository.CategoryRepository;
 import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 @Service
-public class LocalPhotoUploadService implements PhotoUploadService {
+@Primary
+public class CloudinaryPhotoUploadService implements PhotoUploadService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private Cloudinary cloudinary;
     private static final List<String> SUPPORTED_IMAGE_TYPES = List.of("jpeg", "jpg", "png", "webp");
-    private final String url = "http://localhost:8080/categories/";
-
 
     @Override
     public void upload(Long categoryId, MultipartFile[] files) {
@@ -53,25 +48,23 @@ public class LocalPhotoUploadService implements PhotoUploadService {
 
         for (MultipartFile file : files) {
             try {
-                if (!validateFileType(file)) continue;
-                String directoryOfFullImage = "src/main/resources/static/categories/" + categoryId + "/images/";
-                String directoryOfThumbnailImage = "src/main/resources/static/categories/" + categoryId + "/thumbnails/";
-                String uniqueFileName = renameFileToRandomUUID(file.getOriginalFilename());
+                validateFileType(file);
+                String imgFolderPath = "PhotoGallery/" + categoryId;
 
-                Files.createDirectories(Path.of(directoryOfFullImage));
-                Files.createDirectories(Path.of(directoryOfThumbnailImage));
+                Map result = cloudinary.uploader().upload(
+                        file.getBytes(),
+                        Map.of(
+                                "folder", imgFolderPath,
+                                "resource_type", "image"
+                        )
+                );
 
-                File fullImgFile = new File(directoryOfFullImage + uniqueFileName);
-                File thumbnailImgFile = new File(directoryOfThumbnailImage + uniqueFileName);
-
-                Path thumbnail = createThumbnail(file);
-
-                Files.copy(file.getInputStream(), fullImgFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(thumbnail, thumbnailImgFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                String imageUrl = result.get("secure_url").toString();
+                String thumbnailUrl = createThumbnailUrl(imageUrl);
 
                 Photo photo = new Photo(
-                        url + categoryId + "/images/" + uniqueFileName,
-                        url + categoryId + "/thumbnails/" + uniqueFileName,
+                        imageUrl,
+                        thumbnailUrl,
                         category
                 );
 
@@ -109,31 +102,7 @@ public class LocalPhotoUploadService implements PhotoUploadService {
         return true;
     }
 
-    private String renameFileToRandomUUID(String fileName) {
-        if (fileName == null || fileName.isEmpty()) {
-            throw new IllegalArgumentException("File name cannot be null or empty");
-        }
-
-        int extensionIndex = fileName.lastIndexOf(".");
-        String extension = fileName.substring(extensionIndex);
-
-        return UUID.randomUUID().toString() + extension;
-    }
-
-    private Path createThumbnail(MultipartFile file) throws IOException {
-        BufferedImage image = ImageIO.read(file.getInputStream());
-        if (image == null) {
-            throw new IOException("Failed to read file as an image");
-        }
-
-        Path thumbnailTempFile = Files.createTempFile("thumbnail-", renameFileToRandomUUID(file.getOriginalFilename()));
-        Files.copy(file.getInputStream(), thumbnailTempFile, StandardCopyOption.REPLACE_EXISTING);
-
-        Thumbnails.of(image)
-                .size(500, 500)
-                .crop(Positions.CENTER)
-                .toFile(thumbnailTempFile.toFile());
-
-        return thumbnailTempFile;
+    private String createThumbnailUrl(String imageUrl) {
+        return imageUrl.replace("upload/", "upload/w_300,h_300,c_fill/");
     }
 }
