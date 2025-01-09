@@ -2,9 +2,11 @@ package projects.gallery.photo_gallery.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import projects.gallery.photo_gallery.dto.response.CategoryDto;
 import projects.gallery.photo_gallery.dto.response.PhotoDto;
-import projects.gallery.photo_gallery.service.MediaService;
+import projects.gallery.photo_gallery.service.interfaces.MediaService;
+import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
 
 import java.util.List;
 
@@ -13,6 +15,8 @@ import java.util.List;
 public class MediaController {
     @Autowired
     private MediaService mediaService;
+    @Autowired
+    private PhotoUploadService photoUploadService;
 
     @GetMapping("/categories")
     public List<CategoryDto> getAllCategories() {
@@ -32,5 +36,11 @@ public class MediaController {
     @GetMapping("/photos/{photoId}")
     public PhotoDto getPhoto(@PathVariable Long photoId) {
         return mediaService.getPhotoById(photoId);
+    }
+
+    @PostMapping("/categories/{categoryId}/upload")
+    public String uploadPhotos(@PathVariable Long categoryId, MultipartFile[] files) {
+        photoUploadService.upload(categoryId, files);
+        return "Successfully uploaded photos";
     }
 }
