@@ -1,13 +1,13 @@
-package projects.gallery.photo_gallery.service;
+package projects.gallery.photo_gallery.service.media;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projects.gallery.photo_gallery.dto.response.CategoryDto;
 import projects.gallery.photo_gallery.dto.response.PhotoDto;
 import projects.gallery.photo_gallery.exception.NotFoundException;
-import projects.gallery.photo_gallery.model.Category;
-import projects.gallery.photo_gallery.repository.CategoryRepository;
-import projects.gallery.photo_gallery.repository.PhotoRepository;
+import projects.gallery.photo_gallery.model.media.Category;
+import projects.gallery.photo_gallery.repository.media.CategoryRepository;
+import projects.gallery.photo_gallery.repository.media.PhotoRepository;
 import projects.gallery.photo_gallery.service.interfaces.MediaService;
 
 import java.util.List;
