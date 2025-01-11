@@ -5,6 +5,7 @@ import HomeComponent from './pages/Home/Home.tsx'
 import GalleryComponent from './pages/Gallery/Gallery.tsx'
 import UploadComponent from './pages/Upload/Upload.tsx'
 import Navbar from './components/Navbar/Navbar.tsx'
+import Footer from './components/Footer/Footer.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <Router>
@@ -14,5 +15,6 @@ createRoot(document.getElementById('root')!).render(
       <Route path='/category/:categoryAccessUrl' element={<GalleryComponent />} />
       <Route path='/upload' element={<UploadComponent />} />
     </Routes>
+    <Footer />
   </Router>
 )

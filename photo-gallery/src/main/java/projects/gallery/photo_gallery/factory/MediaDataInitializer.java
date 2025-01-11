@@ -42,11 +42,21 @@ public class MediaDataInitializer implements CommandLineRunner {
                 null,
                 weddingCat
         );
+        Photo wedding4 = new Photo(
+                "https://themagnoliavenue.com/wp-content/uploads/2021/11/3H9A9561_websize.jpg",
+                "https://themagnoliavenue.com/wp-content/uploads/2021/11/3H9A9561_websize.jpg",
+                null,
+                weddingCat
+        );
 
         weddingCat.setPhotos(List.of(
-                wedding1, wedding2, wedding3
+                wedding1, wedding2, wedding3, wedding4
         ));
-        weddingCat.setThumbnailPhoto(wedding1);
+        weddingCat.setDescription("Step into a world of love, joy, and celebration with our Wedding Photo Gallery. " +
+                "Here, you can explore a collection of breathtaking moments captured on one of the most significant days of a couple’s life. " +
+                "From the tender vows exchanged in front of family and friends to the spontaneous laughter shared during the reception, " +
+                "each image tells a unique story of happiness and togetherness.");
+        weddingCat.setThumbnailPhoto(wedding4);
 
 
 
@@ -74,11 +84,27 @@ public class MediaDataInitializer implements CommandLineRunner {
                 null,
                 foodNDrinksCat
         );
+        Photo foodNDrinksCat5 = new Photo(
+                "https://images.squarespace-cdn.com/content/v1/568bea5540667a54498bf784/1698418621607-91888NLWM0GSP5RQU410/Lux-still-life-food-drink-photographyOCT-TEASER.jpg",
+                "https://images.squarespace-cdn.com/content/v1/568bea5540667a54498bf784/1698418621607-91888NLWM0GSP5RQU410/Lux-still-life-food-drink-photographyOCT-TEASER.jpg",
+                null,
+                foodNDrinksCat
+        );
+        Photo foodNDrinksCat6 = new Photo(
+                "https://images.squarespace-cdn.com/content/v1/568bea5540667a54498bf784/1683041869719-VPO00QXJCK9VZYBLYQCZ/OCTOBER-THEME.jpg",
+                "https://images.squarespace-cdn.com/content/v1/568bea5540667a54498bf784/1683041869719-VPO00QXJCK9VZYBLYQCZ/OCTOBER-THEME.jpg",
+                null,
+                foodNDrinksCat
+        );
 
         foodNDrinksCat.setPhotos(List.of(
-                foodNDrinksCat1, foodNDrinksCat2, foodNDrinksCat3, foodNDrinksCat4
+                foodNDrinksCat1, foodNDrinksCat2, foodNDrinksCat3, foodNDrinksCat4, foodNDrinksCat5, foodNDrinksCat6
         ));
-        foodNDrinksCat.setThumbnailPhoto(foodNDrinksCat1);
+        foodNDrinksCat.setDescription("Indulge your senses with our Food & Drinks Gallery, " +
+                "where the art of cuisine and the pleasure of fine beverages come to life. " +
+                "This collection showcases a variety of mouthwatering dishes and expertly crafted drinks, " +
+                "each one designed to delight your taste buds and satisfy your cravings.");
+        foodNDrinksCat.setThumbnailPhoto(foodNDrinksCat6);
 
 
         Photo chrsitmas1 = new Photo(
@@ -109,10 +135,21 @@ public class MediaDataInitializer implements CommandLineRunner {
                 christmasCat
         );
 
+        Photo chrsitmas5 = new Photo(
+                "https://www.wowphotostudios.com/wp-content/uploads/2020/11/CB5I1601-1024x683.jpg",
+                "https://www.wowphotostudios.com/wp-content/uploads/2020/11/CB5I1601-1024x683.jpg",
+                null,
+                christmasCat
+        );
+
         christmasCat.setPhotos(List.of(
-                chrsitmas1, chrsitmas2, chrsitmas3, chrsitmas4
+                chrsitmas1, chrsitmas2, chrsitmas3, chrsitmas4, chrsitmas5
         ));
-        christmasCat.setThumbnailPhoto(chrsitmas1);
+        christmasCat.setDescription("Step into the festive spirit with our Christmas Photo Gallery, " +
+                "a heartwarming collection of holiday moments captured in stunning detail. " +
+                "From twinkling lights and beautifully decorated trees to cozy family gatherings and joyful celebrations, " +
+                "this gallery encapsulates the magic of the Christmas season.");
+        christmasCat.setThumbnailPhoto(chrsitmas5);
 
 
         repository.save(weddingCat);

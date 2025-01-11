@@ -24,6 +24,7 @@ public class Category {
     private Long id;
     private String name;
     private String accessUrl;
+    @Column(length = 500)
     private String description;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
