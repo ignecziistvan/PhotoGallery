@@ -1,4 +1,4 @@
-package projects.gallery.photo_gallery.model;
+package projects.gallery.photo_gallery.model.media;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,13 +8,16 @@ import lombok.ToString;
 
 import java.text.Normalizer;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "categories")
+@Table(name = "categories", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id", "name", "access_url"})
+})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +42,18 @@ public class Category {
                 .replaceAll("[^\\p{ASCII}]", "")
                 .replace(" ", "-")
                 .toLowerCase();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

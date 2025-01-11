@@ -1,7 +1,7 @@
 package projects.gallery.photo_gallery.dto.response;
 
 import lombok.Getter;
-import projects.gallery.photo_gallery.model.Category;
+import projects.gallery.photo_gallery.model.media.Category;
 
 @Getter
 public class CategoryDto {

@@ -4,14 +4,14 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import projects.gallery.photo_gallery.model.Category;
-import projects.gallery.photo_gallery.model.Photo;
-import projects.gallery.photo_gallery.repository.CategoryRepository;
+import projects.gallery.photo_gallery.model.media.Category;
+import projects.gallery.photo_gallery.model.media.Photo;
+import projects.gallery.photo_gallery.repository.media.CategoryRepository;
 
 import java.util.List;
 
 @Component
-public class DataInitializer implements CommandLineRunner {
+public class MediaDataInitializer implements CommandLineRunner {
     @Autowired
     private CategoryRepository repository;
 

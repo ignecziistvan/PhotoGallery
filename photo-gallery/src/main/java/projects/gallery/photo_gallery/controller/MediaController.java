@@ -18,6 +18,7 @@ public class MediaController {
     @Autowired
     private PhotoUploadService photoUploadService;
 
+
     @GetMapping("/categories")
     public List<CategoryDto> getAllCategories() {
         return mediaService.getAllCategories();
@@ -37,6 +38,10 @@ public class MediaController {
     public PhotoDto getPhoto(@PathVariable Long photoId) {
         return mediaService.getPhotoById(photoId);
     }
+
+
+
+    // ---------------------------------
 
     @PostMapping("/categories/{categoryId}/upload")
     public String uploadPhotos(@PathVariable Long categoryId, @RequestParam("files[]") MultipartFile[] files) {
