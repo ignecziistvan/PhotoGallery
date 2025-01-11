@@ -10,7 +10,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<CustomExceptionResponse> handleNotFoundException(NotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new CustomExceptionResponse(e.getMessage(), e.getErrors())
+                new CustomExceptionResponse(e.getMessage(), null)
         );
     }
 
@@ -24,6 +24,13 @@ public class CustomExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<CustomExceptionResponse> handleForbiddenException(ForbiddenException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                new CustomExceptionResponse(e.getMessage(), e.getErrors())
+        );
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<CustomExceptionResponse> handleUnauthorizedException(UnauthorizedException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 new CustomExceptionResponse(e.getMessage(), e.getErrors())
         );
     }

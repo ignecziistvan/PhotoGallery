@@ -19,9 +19,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addMapping("/api/media/**")
                 .allowedOrigins("http://localhost:5173")
                 .allowCredentials(true)
-                .allowedMethods("GET", "POST", "OPTIONS");
-        registry.addMapping("/api/login")
-                .allowCredentials(true)
-                .allowedMethods("GET", "POST", "OPTIONS");
+                .allowedHeaders("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD");
     }
 }

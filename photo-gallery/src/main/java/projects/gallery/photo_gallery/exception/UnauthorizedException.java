@@ -5,14 +5,14 @@ import lombok.Getter;
 import java.util.Map;
 
 @Getter
-public class ForbiddenException extends RuntimeException {
+public class UnauthorizedException extends RuntimeException {
     private Map<String, String> errors;
 
-    public ForbiddenException(String message) {
+    public UnauthorizedException(String message) {
         super(message);
     }
 
-    public ForbiddenException(String message, Map<String, String> errors) {
+    public UnauthorizedException(String message, Map<String, String> errors) {
         super(message);
         this.errors = errors;
     }
