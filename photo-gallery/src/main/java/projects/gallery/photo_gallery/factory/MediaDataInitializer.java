@@ -23,6 +23,9 @@ public class MediaDataInitializer implements CommandLineRunner {
         Category weddingCat = new Category("Wedding");
         Category foodNDrinksCat = new Category("Food and Drinks");
         Category christmasCat = new Category("Christmas");
+        Category fashionCat = new Category("Fashion");
+        Category portraitCat = new Category("Portrait");
+        Category petCat = new Category("Pet");
 
         Photo wedding1 = new Photo(
                 "https://cdn0.hitched.co.uk/article/7500/3_2/960/jpg/150057-unique-wedding-ideas.jpeg",
@@ -152,8 +155,88 @@ public class MediaDataInitializer implements CommandLineRunner {
         christmasCat.setThumbnailPhoto(chrsitmas5);
 
 
+        Photo fashion1 = new Photo(
+                "https://audaces.com/wp-content/uploads/2020/08/fashion-styles.webp",
+                "https://audaces.com/wp-content/uploads/2020/08/fashion-styles.webp",
+                null,
+                fashionCat
+        );
+        Photo fashion2 = new Photo(
+                "https://media.glamour.com/photos/66f5c2777e09bc43bcee2067/16:9/w_1280,c_limit/men%E2%80%99s%20fashion%20trends.jpg",
+                "https://media.glamour.com/photos/66f5c2777e09bc43bcee2067/16:9/w_1280,c_limit/men%E2%80%99s%20fashion%20trends.jpg",
+                null,
+                fashionCat
+        );
+        Photo fashion3 = new Photo(
+                "https://assets.vogue.com/photos/60e70bcccd2d1c05db4c9f58/4:3/w_1600,c_limit/00_promo_4x3.jpg",
+                "https://assets.vogue.com/photos/60e70bcccd2d1c05db4c9f58/4:3/w_1600,c_limit/00_promo_4x3.jpg",
+                null,
+                fashionCat
+        );
+        fashionCat.setPhotos(List.of(
+                fashion1, fashion2, fashion3
+        ));
+        fashionCat.setThumbnailPhoto(fashion1);
+
+        Photo portrait1 = new Photo(
+                "https://images.unsplash.com/photo-1544005313-94ddf0286df2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
+                "https://images.unsplash.com/photo-1544005313-94ddf0286df2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
+                null,
+                portraitCat
+        );
+        Photo portrait2 = new Photo(
+                "https://res.cloudinary.com/dqzkirtbz/image/upload/w_auto/q_auto,f_auto,dpr_auto/v1698342290/Website/blog/female_portrait_postcrest.jpg",
+                "https://res.cloudinary.com/dqzkirtbz/image/upload/w_auto/q_auto,f_auto,dpr_auto/v1698342290/Website/blog/female_portrait_postcrest.jpg",
+                null,
+                portraitCat
+        );
+        Photo portrait3 = new Photo(
+                "https://storage.googleapis.com/pod_public/750/173045.jpg",
+                "https://storage.googleapis.com/pod_public/750/173045.jpg",
+                null,
+                portraitCat
+        );
+        portraitCat.setPhotos(List.of(
+                portrait1, portrait2, portrait3
+        ));
+        portraitCat.setThumbnailPhoto(portrait1);
+
+
+        Photo pet1 = new Photo(
+                "https://images.theconversation.com/files/625049/original/file-20241010-15-95v3ha.jpg?ixlib=rb-4.1.0&rect=4%2C12%2C2679%2C1521&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip",
+                "https://images.theconversation.com/files/625049/original/file-20241010-15-95v3ha.jpg?ixlib=rb-4.1.0&rect=4%2C12%2C2679%2C1521&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip",
+                null,
+                petCat
+        );
+        Photo pet2 = new Photo(
+                "https://www.lanecove.nsw.gov.au/files/sharedassets/public/v/1/pets.jpg?w=1080",
+                "https://www.lanecove.nsw.gov.au/files/sharedassets/public/v/1/pets.jpg?w=1080",
+                null,
+                petCat
+        );
+        Photo pet3 = new Photo(
+                "https://www.atozvet.com/wp-content/uploads/2017/07/Prevention-and-Treatment-For-Pet-Disease-Midland-TX-scaled.jpg",
+                "https://www.atozvet.com/wp-content/uploads/2017/07/Prevention-and-Treatment-For-Pet-Disease-Midland-TX-scaled.jpg",
+                null,
+                petCat
+        );
+        Photo pet4 = new Photo(
+                "https://www.onehealth.org/hubfs/blog/Tips-for-Choosing-the-Right-Pet-for-Your-Home-and-Lifestyle.jpeg",
+                "https://www.onehealth.org/hubfs/blog/Tips-for-Choosing-the-Right-Pet-for-Your-Home-and-Lifestyle.jpeg",
+                null,
+                petCat
+        );
+        petCat.setPhotos(List.of(
+                pet1, pet2, pet3, pet4
+        ));
+        petCat.setThumbnailPhoto(pet1);
+
+
         repository.save(weddingCat);
         repository.save(foodNDrinksCat);
         repository.save(christmasCat);
+        repository.save(portraitCat);
+        repository.save(petCat);
+        repository.save(fashionCat);
     }
 }

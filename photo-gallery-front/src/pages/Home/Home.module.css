@@ -4,10 +4,32 @@
   align-items: center;
   justify-content: center;
   padding: 1em;
-  min-height: 100vh;
+  min-height: 50vh;
+}
+.introduce .imgContainer {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.introduce .imgContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.introduce p {
+  max-width: 60%;
+  font-size: 1.2em;
+  line-height: 1.2;
+  text-align: center;
+  margin-top: 0.5em;
+  color: #b7b7b7;
 }
 
-.categories {
+
+.categoriesSection {
   position: relative;
   height: 100vh;
   display: flex;
@@ -50,24 +72,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid #666;
   background: #00000050;
   padding: 0.8em 2em;
   border-radius: 2em;
   width: 40%;
+  transition: background 0.2s;
+}
+.selectedCategoryInfo a:hover,
+.selectedCategoryInfo a:focus {
+  background: #000;
+  color: #fff;
 }
 
 .categoriesContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5em;
+  width: 44em;
+  overflow: hidden;
+}
+
+.categoryList {
   display: flex;
   align-items: flex-end;
   gap: 2em;
-  width: 50%;
   margin: 1em;
-  margin-bottom: 5em;
+  padding-bottom: 1em;
+  transform: translateX(0);
+  transition: transform 0.4s ease;
 }
 
 .categorySelected,
 .categoryUnselected {
+  flex-shrink: 0;
   width: 12em;
   height: 15em;
   overflow: hidden;
@@ -90,4 +129,32 @@
 
 .categoryUnselected {
   cursor: pointer;
+  opacity: 0.8;
+}
+
+.categoriesPagination {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}
+.categoriesPagination button {
+  display: flex;
+  width: 3em;
+  height: 3em;
+  padding: 0.8em;
+  align-items: center;
+  justify-content: center;
+  background: #00000080;
+  color: #fff;
+  border-radius: 50%;
+}
+.categoriesPagination button:disabled {
+  color: #666;
+  cursor: auto;
+  opacity: 0.6;
+}
+.categoriesPagination button:disabled:hover {
+  border: 0;
 }

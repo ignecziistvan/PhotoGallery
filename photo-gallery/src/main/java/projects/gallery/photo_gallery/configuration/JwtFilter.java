@@ -33,26 +33,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (
-                request.getRequestURI().equals("/api/login")
-                        || request.getRequestURI().equals("/api/register")
-                        || ( request.getMethod().equals(HttpMethod.GET.name()) && request.getRequestURI().startsWith("/api/media/categories") )
-                        || request.getRequestURI().startsWith("/h2-console")
-        ) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         try {
             String authHeader = request.getHeader("Authorization");
-            String token;
-            String username;
+            String token = null;
+            String username = null;
 
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 token = authHeader.substring(7);
                 username = jwtService.extractUserName(token);
-            } else {
-                throw new UnauthorizedException("JWT token is missing");
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

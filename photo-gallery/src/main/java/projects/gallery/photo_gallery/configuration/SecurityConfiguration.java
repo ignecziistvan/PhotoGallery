@@ -46,9 +46,10 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("/api/register").permitAll()
                                 .requestMatchers("/api/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/media/**").permitAll()
+                                .requestMatchers("/api/owner").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -18,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"id", "username", "email"}),
+                @UniqueConstraint(columnNames = {"id", "username", "phone", "email"}),
         }
 )
 public class User implements UserDetails {
@@ -32,6 +32,8 @@ public class User implements UserDetails {
     private String lastName;
     private String avatar;
     private String description;
+
+    private String linkedIn;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

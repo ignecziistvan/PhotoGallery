@@ -1,25 +1,26 @@
+import { useEffect, useState } from 'react';
 import css from './Footer.module.css';
 import { SocialIcon } from 'react-social-icons'
+import { User } from '../../models/User';
+import { getOwner } from '../../services/UserService';
 
 export default function Footer() {
+  const [owner, setOwner] = useState<User|undefined>();
 
+  useEffect(() => {
+    async function init() {
+      setOwner(await getOwner());
+    }
+
+    init();
+  }, []);
 
   return (
     <footer className={css.footer}>
-      <div className={css.footerContent}>
-        <div className={css.footerLinks}>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="/privacy">Privacy Policy</a>
-        </div>
-        <div className={css.right}>
-          <div className={css.socialMedia}>
-            <SocialIcon url="https://twitter.com" bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
-            <SocialIcon url="https://instagram.com"  bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
-            <SocialIcon url="https://facebook.com"  bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
-          </div>
-          <p>© 2025 PhotoGallery. All Rights Reserved.</p>
-        </div>
+      <p>© 2025 Ignéczi István.</p>
+      <div className={css.socialMedia}>
+        <SocialIcon url="https://github.com/ignecziistvan" bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
+        <SocialIcon url={owner?.linkedIn} bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
       </div>
     </footer>
   );
