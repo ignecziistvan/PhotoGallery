@@ -6,7 +6,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import projects.gallery.photo_gallery.dto.request.MailDto;
+import projects.gallery.photo_gallery.exception.BadRequestException;
 import projects.gallery.photo_gallery.service.interfaces.MailService;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -21,6 +26,12 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendMail(MailDto dto) {
+        Map<String, String> errors = validateMail(dto);
+
+        if (!errors.isEmpty()) {
+            throw new BadRequestException("Error sending the message", errors);
+        }
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(env.getProperty("admin.email"));
         message.setSubject("Private message received");
@@ -47,10 +58,41 @@ public class MailServiceImpl implements MailService {
                 "Best regards,\n" +
                 env.getProperty("admin.last-name") + " " + env.getProperty("admin.first-name") + "\n" +
                 "Email: " + env.getProperty("admin.email") + "\n\n" +
-                "This is an auto-generated email, do not answer  to it!"
+                "This is an auto-generated email."
         );
 
         message.setFrom(env.getProperty("spring.mail.username"));
         mailSender.send(message);
+    }
+
+    private Map<String, String> validateMail(MailDto dto) {
+        String NAME_REGEX = "^[A-Za-zÀ-ÖØ-öø-ÿ]+(\\s[A-Za-zÀ-ÖØ-öø-ÿ]+)+$";
+        String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        int MESSAGE_MAX_LENGTH = 1000;
+
+        Map<String, String> errors = new HashMap<>();
+
+        if (dto.getName() == null || dto.getName().isBlank()) {
+            errors.put("name", "Name cannot be empty");
+        }
+        if (!Pattern.matches(NAME_REGEX, dto.getName())) {
+            errors.put("name", "Enter your full name");
+        }
+
+        if (dto.getEmail() == null || dto.getEmail().isBlank()) {
+            errors.put("email", "Email cannot be empty");
+        }
+        if (!Pattern.matches(EMAIL_REGEX, dto.getEmail())) {
+            errors.put("email", "Invalid email format");
+        }
+
+        if (dto.getMessage() == null || dto.getMessage().isBlank()) {
+            errors.put("message", "Message cannot be empty");
+        }
+        if (dto.getMessage().length() > MESSAGE_MAX_LENGTH) {
+            errors.put("message", "Message must be maximum " + MESSAGE_MAX_LENGTH + " characters long");
+        }
+
+        return errors;
     }
 }
