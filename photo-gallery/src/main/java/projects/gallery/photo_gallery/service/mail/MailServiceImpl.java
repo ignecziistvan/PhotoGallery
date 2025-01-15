@@ -74,22 +74,20 @@ public class MailServiceImpl implements MailService {
 
         if (dto.getName() == null || dto.getName().isBlank()) {
             errors.put("name", "Name cannot be empty");
-        }
-        if (!Pattern.matches(NAME_REGEX, dto.getName())) {
+        } else if (!Pattern.matches(NAME_REGEX, dto.getName())) {
             errors.put("name", "Enter your full name");
         }
 
+
         if (dto.getEmail() == null || dto.getEmail().isBlank()) {
             errors.put("email", "Email cannot be empty");
-        }
-        if (!Pattern.matches(EMAIL_REGEX, dto.getEmail())) {
+        } else if (!Pattern.matches(EMAIL_REGEX, dto.getEmail())) {
             errors.put("email", "Invalid email format");
         }
 
         if (dto.getMessage() == null || dto.getMessage().isBlank()) {
             errors.put("message", "Message cannot be empty");
-        }
-        if (dto.getMessage().length() > MESSAGE_MAX_LENGTH) {
+        } else if (dto.getMessage().length() > MESSAGE_MAX_LENGTH) {
             errors.put("message", "Message must be maximum " + MESSAGE_MAX_LENGTH + " characters long");
         }
 

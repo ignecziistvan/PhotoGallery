@@ -18,8 +18,10 @@ export default function Footer() {
 
   return (
     <footer className={css.footer}>
-      <p>© 2025 Ignéczi István.</p>
-      <Link to='/contact'>Contact</Link>
+      <div className={css.info}>
+        <Link to='/contact'>Contact</Link>
+        <p>© 2025 Ignéczi István.</p>
+      </div>
       <div className={css.socialMedia}>
         <SocialIcon url="https://github.com/ignecziistvan" bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
         <SocialIcon url={owner?.linkedIn} bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />

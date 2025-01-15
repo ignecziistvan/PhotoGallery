@@ -90,6 +90,17 @@
   background: var(--color);
 }
 
+.flex .msgSuccessBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color);
+  color: #ececec;
+  padding: 1em;
+  width: 40%;
+  border-radius: 1em;
+}
+
 
 
 
