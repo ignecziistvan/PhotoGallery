@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                         request -> request
                                 .requestMatchers("/api/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/media/**").permitAll()
+                                .requestMatchers("/api/mail/send").permitAll()
                                 .requestMatchers("/api/owner").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .anyRequest().authenticated()
