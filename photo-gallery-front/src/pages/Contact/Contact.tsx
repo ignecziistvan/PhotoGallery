@@ -25,6 +25,7 @@ export default function ContactComponent() {
     email: '',
     message: ''
   });
+  const [loading, setLoading] = useState<boolean>(false);
   const [sendSuccess, setSendSuccess] = useState<boolean>(false);
 
   useEffect(() => {
@@ -38,6 +39,8 @@ export default function ContactComponent() {
 
   async function submitForm(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
+
     setError({
       name: '',
       email: '',
@@ -51,6 +54,8 @@ export default function ContactComponent() {
     } else {
       setSendSuccess(true);
     }
+
+    setLoading(false);
   }
 
   return (
@@ -150,7 +155,10 @@ export default function ContactComponent() {
               )}
             </div>
 
-            <button type='submit'>Send</button>
+            <button 
+              type='submit'
+              disabled={loading}
+            >{loading ? "Sending..." : "Send"}</button>
           </form>
         )}
       </div>
