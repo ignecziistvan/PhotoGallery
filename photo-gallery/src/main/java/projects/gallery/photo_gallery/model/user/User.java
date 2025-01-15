@@ -34,6 +34,7 @@ public class User implements UserDetails {
     private String description;
 
     private String linkedIn;
+    private String github;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

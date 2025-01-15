@@ -20,11 +20,5 @@ httpRequest.interceptors.request.use((config) => {
   }
 );
 
-httpRequest.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error('Error logged in httpRequest interceptor: ', error);
-  }
-);
 
 export default httpRequest;

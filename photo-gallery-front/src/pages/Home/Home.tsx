@@ -51,7 +51,9 @@ export default function HomeComponent() {
     <>
       <section 
         className={css.introduce}
-        style={{ opacity: 1 - windowScroll * 5 / window.innerHeight }}
+        style={{ 
+          opacity: 1 - windowScroll * 5 / window.innerHeight
+        }}
       >
         <div className={css.imgContainer}>
           <img src={introducePhoto} alt="Photo Gallery" />
