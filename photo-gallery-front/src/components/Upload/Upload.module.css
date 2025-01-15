@@ -1,0 +1,22 @@
+.page {
+  display: flex;
+  gap: 2em;
+}
+
+.categorySelection {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+}
+.categorySelection h2 {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0.5em;
+}
+
+.imgUploadContainer {
+  width: 80%;
+  background: #111;
+  border-radius: 2em;
+  padding: 1em;
+}

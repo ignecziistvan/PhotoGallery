@@ -2,8 +2,8 @@ import { useState } from 'react';
 import css from './Login.module.css';
 import handleErrors from './LoginService';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/UserService';
-import FormGroup from '../../components/FormGroup/FormGroup';
+import { login } from '../../../services/UserService';
+import FormGroup from '../../../components/FormGroup/FormGroup';
 
 
 export default function LoginComponent({ setAuthenticated } : { setAuthenticated: React.Dispatch<React.SetStateAction<boolean>> }) {
@@ -18,7 +18,7 @@ export default function LoginComponent({ setAuthenticated } : { setAuthenticated
 
     try {
       await login(username, password, setAuthenticated);
-      navigate('/');
+      navigate('/dashboard');
     } catch (e) {
       console.log(e);
       

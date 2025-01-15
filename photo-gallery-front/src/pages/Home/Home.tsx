@@ -58,8 +58,10 @@ export default function HomeComponent() {
         </div>
         <h1>Welcome to PhotoGallery!</h1>
         <h3>This website is a demo project</h3>
-        <p>This website is a demo I created as a template to expand my portfolio and enhance my skills. Feel free to look around! The website is fully functional and built as a full-stack web application.</p>
-        <a href="https://github.com/ignecziistvan/PhotoGallery">See more in the github repo</a>
+        <p>This website is a demo project I created to expand my portfolio and sharpen my skills. It's a fully functional, full-stack web application.</p>
+        <p>Feel free to explore the site</p>
+        <p>or</p>
+        <a href="https://github.com/ignecziistvan/PhotoGallery">see the source code in the github repo</a>
       </section>
 
       <section 

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import projects.gallery.photo_gallery.dto.request.LoginDto;
 import projects.gallery.photo_gallery.dto.response.UserDto;
-import projects.gallery.photo_gallery.model.user.User;
 import projects.gallery.photo_gallery.service.interfaces.AuthService;
 import projects.gallery.photo_gallery.service.interfaces.UserService;
 

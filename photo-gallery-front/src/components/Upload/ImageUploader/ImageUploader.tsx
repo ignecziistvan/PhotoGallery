@@ -42,10 +42,13 @@ export default function ImageUploader({ categoryId } : { categoryId: number }) {
           )}
         </div>
 
+        {files.length > 0 && 
         <button 
           className={css.uploadButton} 
           onClick={() => uploadFiles(categoryId, files, setPosting, setFiles)}
         >Upload</button>
+        }
+        
       </div>
 
       {files.length > 0 && 

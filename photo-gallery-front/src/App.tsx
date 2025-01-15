@@ -1,36 +1,45 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import HomeComponent from './pages/Home/Home.tsx'
 import GalleryComponent from './pages/Gallery/Gallery.tsx'
-import UploadComponent from './pages/Upload/Upload.tsx'
-import Navbar from './components/Navbar/Navbar.tsx'
-import LoginComponent from './pages/Login/Login.tsx'
+import LoginComponent from './pages/admin/Login/Login.tsx'
 import { useEffect, useState } from 'react'
-import httpRequest from './interceptors/HttpRequest.ts'
+import DashboardComponent from './pages/admin/Dashboard/Dashboard.tsx'
+import { authenticate } from './services/UserService.ts'
+import Loading from './components/Loading/Loading.tsx'
 
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    async function authenticate() {
+    async function init() {
       try {
-        const response = await httpRequest.get('/authenticate');
-        if (response.status === 200) setAuthenticated(true);
+        setLoading(true);
+        const response = await authenticate();
+        setAuthenticated(response);
       } catch (error) {
         setAuthenticated(false);
+      } finally {
+        setLoading(false);
       }
     }
-    authenticate();
+    init();
   }, []);
 
+  if (loading) {
+    return <Loading />
+  } 
+  
   return (
     <Router>
-      {authenticated && <Navbar />}
       <Routes>
         <Route path='/' element={<HomeComponent />} />
         <Route path='/category/:categoryAccessUrl' element={<GalleryComponent />} />
-        <Route path='/upload' element={<UploadComponent />} />
+        
         <Route path='/login' element={<LoginComponent setAuthenticated={setAuthenticated} />} />
+
+        <Route path='/dashboard' element={<DashboardComponent authenticated={authenticated} />} />
       </Routes>
     </Router>
   );

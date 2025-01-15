@@ -10,6 +10,15 @@ export async function getOwner(): Promise<User | undefined> {
   }
 }
 
+export async function authenticate() {
+  try {
+    const response = await httpRequest.get('authenticate');
+    if (response) return true; else return false;
+  } catch (error) {
+    return false;
+  }
+}
+
 
 export const login = async (username: string, password: string, setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>) => { 
   const response = await httpRequest.post('login', {

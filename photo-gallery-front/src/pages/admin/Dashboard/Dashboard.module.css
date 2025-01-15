@@ -1,33 +1,49 @@
 .page {
+  align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 1em;
+  width: 90%;
 }
 
-.imgUploadContainer {
-  width: 60%;
-  background: #111;
-  border-radius: 2em;
-  padding: 1em;
+.logout {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.logout button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin: 1em;
 }
 
-.categorySelection {
+
+.uploadSection {
   width: 80%;
+}
+
+
+
+
+.categorySection {
+  margin-top: 4em;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 80%;
 }
-.categorySelection ul {
+.categoryList {
   width: 100%;
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1em;
 }
-.categorySelection ul li {
+.categoryList li {
   display: flex;
   align-items: center;
   height: 5em;
@@ -38,18 +54,18 @@
   cursor: pointer;
 }
 
-.categorySelection ul li .imgContainer {
+.categoryList li .imgContainer {
   height: 100%;
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 1em;
 }
-.categorySelection ul li .imgContainer img {
+.categoryList li .imgContainer img {
   height: 100%;
   object-fit: cover;
 }
 
-.categorySelection ul li .imgInfo {
+.categoryList li .imgInfo {
   height: 100%;
   display: flex;
   flex-direction: column;
