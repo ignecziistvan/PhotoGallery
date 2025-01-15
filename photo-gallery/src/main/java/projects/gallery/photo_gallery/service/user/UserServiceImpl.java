@@ -1,22 +1,39 @@
 package projects.gallery.photo_gallery.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import projects.gallery.photo_gallery.dto.response.UserDto;
 import projects.gallery.photo_gallery.exception.NotFoundException;
+import projects.gallery.photo_gallery.model.user.User;
 import projects.gallery.photo_gallery.repository.user.UserRepository;
 import projects.gallery.photo_gallery.service.interfaces.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private final UserRepository repository;
+    private final Environment env;
+
     @Autowired
-    private UserRepository repository;
+    public UserServiceImpl(UserRepository repository, Environment env) {
+        this.repository = repository;
+        this.env = env;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username).orElseThrow(
-                () -> new NotFoundException("User was not found")
+    public UserDetails loadUserByUsername(String username) {
+        return repository.findByUsername(username).orElse(null);
+    }
+
+
+    @Override
+    public UserDto getOwner() {
+        User user = repository.findByUsername(env.getProperty("admin.username")).orElseThrow(
+                () -> new NotFoundException("Owner was not found")
         );
+
+        return new UserDto(user);
     }
 }

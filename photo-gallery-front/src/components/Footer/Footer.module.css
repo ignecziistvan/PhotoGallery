@@ -1,0 +1,13 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #000;
+  color: white;
+  position: relative;
+  padding: 2em;
+}
+.socialMedia {
+  display: flex;
+  gap: 1em;
+}

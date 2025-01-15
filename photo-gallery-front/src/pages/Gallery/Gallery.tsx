@@ -30,8 +30,7 @@ export default function GalleryComponent() {
   return (
     <>
       <section className={css.header}>
-        <h1>{ category?.name }</h1>
-        <p>{ category?.description }</p>
+        <h1>{ category?.name } photos</h1>
       </section>
 
       <PhotoProvider>
