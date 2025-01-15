@@ -10,6 +10,7 @@ public class UserDto {
     private final String avatarUrl;
     private final String description;
     private final String linkedIn;
+    private final String github;
 
     public UserDto(User u) {
         this.email = u.getEmail();
@@ -17,5 +18,6 @@ public class UserDto {
         this.avatarUrl = u.getAvatar();
         this.description = u.getDescription();
         this.linkedIn = u.getLinkedIn();
+        this.github = u.getGithub();
     }
 }

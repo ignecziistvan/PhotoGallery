@@ -4,4 +4,5 @@ export interface User {
   avatarUrl: string;
   description: string;
   linkedIn: string;
+  github: string;
 }

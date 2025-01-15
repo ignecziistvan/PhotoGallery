@@ -50,6 +50,7 @@ public class UserDataInitializer implements CommandLineRunner {
         user.getRoles().add(adminRole);
 
         user.setLinkedIn(env.getProperty("admin.linkedIn"));
+        user.setGithub(env.getProperty("admin.github"));
 
         userRepository.save(user);
     }

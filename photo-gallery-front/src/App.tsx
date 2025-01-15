@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import DashboardComponent from './pages/admin/Dashboard/Dashboard.tsx'
 import { authenticate } from './services/UserService.ts'
 import Loading from './components/Loading/Loading.tsx'
+import ContactComponent from './pages/Contact/Contact.tsx'
 
 
 export default function App() {
@@ -36,10 +37,11 @@ export default function App() {
       <Routes>
         <Route path='/' element={<HomeComponent />} />
         <Route path='/category/:categoryAccessUrl' element={<GalleryComponent />} />
+        <Route path='/contact' element={<ContactComponent />} />
         
         <Route path='/login' element={<LoginComponent setAuthenticated={setAuthenticated} />} />
 
-        <Route path='/dashboard' element={<DashboardComponent authenticated={authenticated} />} />
+        <Route path='/dashboard' element={<DashboardComponent authenticated={authenticated} setAuthenticated={setAuthenticated} />} />
       </Routes>
     </Router>
   );
