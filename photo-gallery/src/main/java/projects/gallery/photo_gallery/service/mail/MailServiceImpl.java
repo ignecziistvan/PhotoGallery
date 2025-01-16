@@ -5,7 +5,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import projects.gallery.photo_gallery.dto.request.MailDto;
+import projects.gallery.photo_gallery.dto.request.MailRequest;
 import projects.gallery.photo_gallery.exception.BadRequestException;
 import projects.gallery.photo_gallery.service.interfaces.MailService;
 
@@ -25,7 +25,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendMail(MailDto dto) {
+    public void sendMail(MailRequest dto) {
         Map<String, String> errors = validateMail(dto);
 
         if (!errors.isEmpty()) {
@@ -46,7 +46,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void getConfirmationMail(MailDto dto) {
+    public void getConfirmationMail(MailRequest dto) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(dto.getEmail());
         message.setSubject("Confirmation - Photo gallery website");
@@ -65,7 +65,7 @@ public class MailServiceImpl implements MailService {
         mailSender.send(message);
     }
 
-    private Map<String, String> validateMail(MailDto dto) {
+    private Map<String, String> validateMail(MailRequest dto) {
         String NAME_REGEX = "^[A-Za-zÀ-ÖØ-öø-ÿ]+(\\s[A-Za-zÀ-ÖØ-öø-ÿ]+)+$";
         String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         int MESSAGE_MAX_LENGTH = 1000;

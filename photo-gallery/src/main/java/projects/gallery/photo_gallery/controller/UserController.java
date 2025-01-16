@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import projects.gallery.photo_gallery.dto.request.LoginDto;
-import projects.gallery.photo_gallery.dto.response.UserDto;
+import projects.gallery.photo_gallery.dto.request.LoginRequest;
+import projects.gallery.photo_gallery.dto.response.UserResponse;
 import projects.gallery.photo_gallery.service.interfaces.AuthService;
 import projects.gallery.photo_gallery.service.interfaces.UserService;
 
@@ -22,17 +22,17 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
-    public String login(@RequestBody LoginDto dto) {
+    public String login(@RequestBody LoginRequest dto) {
         return authService.login(dto);
     }
 
     @GetMapping("/api/authenticate")
-    public UserDto authenticate() {
-        return new UserDto(authService.authenticate());
+    public UserResponse authenticate() {
+        return new UserResponse(authService.authenticate());
     }
 
     @GetMapping("/api/owner")
-    public UserDto getOwner() {
+    public UserResponse getOwner() {
         return userService.getOwner();
     }
 }

@@ -1,13 +1,18 @@
 package projects.gallery.photo_gallery.service.interfaces;
 
-import projects.gallery.photo_gallery.dto.response.CategoryDto;
-import projects.gallery.photo_gallery.dto.response.PhotoDto;
+import projects.gallery.photo_gallery.dto.request.CategoryRequest;
+import projects.gallery.photo_gallery.dto.response.CategoryResponse;
+import projects.gallery.photo_gallery.dto.response.PhotoResponse;
 
 import java.util.List;
 
 public interface MediaService {
-    CategoryDto getCategoryById(Long id);
-    List<CategoryDto> getAllCategories();
-    List<PhotoDto> getPhotosOfCategory(Long categoryId);
-    PhotoDto getPhotoById(Long id);
+    CategoryResponse getCategoryById(Long id);
+    List<CategoryResponse> getAllCategories();
+    List<PhotoResponse> getPhotosOfCategory(Long categoryId);
+    PhotoResponse getPhotoById(Long id);
+
+    void createCategory(CategoryRequest dto);
+    void deleteCategory(Long categoryId);
+    void patchCategory(CategoryRequest dto, Long categoryId);
 }

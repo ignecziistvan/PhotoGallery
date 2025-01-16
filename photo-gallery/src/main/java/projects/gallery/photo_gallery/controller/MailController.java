@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import projects.gallery.photo_gallery.dto.request.MailDto;
+import projects.gallery.photo_gallery.dto.request.MailRequest;
 import projects.gallery.photo_gallery.service.interfaces.MailService;
 
 @RestController
@@ -15,7 +15,7 @@ public class MailController {
     private MailService mailService;
 
     @PostMapping("/send")
-    public void sendMail(@RequestBody MailDto dto) {
+    public void sendMail(@RequestBody MailRequest dto) {
         mailService.sendMail(dto);
         mailService.getConfirmationMail(dto);
     }

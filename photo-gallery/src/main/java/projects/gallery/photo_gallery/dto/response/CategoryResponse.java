@@ -4,14 +4,14 @@ import lombok.Getter;
 import projects.gallery.photo_gallery.model.media.Category;
 
 @Getter
-public class CategoryDto {
+public class CategoryResponse {
     private final Long id;
     private final String name;
     private final String accessUrl;
     private final String description;
     private final String thumbnailUrl;
 
-    public CategoryDto(Category c) {
+    public CategoryResponse(Category c) {
         this.id = c.getId();
         this.name = c.getName();
         this.accessUrl = c.getAccessUrl();
