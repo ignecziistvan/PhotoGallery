@@ -58,7 +58,7 @@ public class MediaController {
         return "Category deleted";
     }
 
-    @PatchMapping("/categories/{categoryId}")
+    @PutMapping("/categories/{categoryId}")
     public String patchCategory(
             @PathVariable("categoryId") Long categoryId,
             @RequestBody CategoryRequest dto
@@ -66,6 +66,8 @@ public class MediaController {
         mediaService.patchCategory(dto, categoryId);
         return "Category patched successfully";
     }
+
+
 
     // --- Photos ---
 

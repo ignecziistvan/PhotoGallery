@@ -5,12 +5,14 @@ import { faTrash, faEdit, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { authenticate } from '../../../services/UserService';
 import { Link, useNavigate } from 'react-router-dom';
-import { getCategories } from '../../../services/CategoryService';
+import { deleteCategory, getCategories } from '../../../services/CategoryService';
 import { Category } from '../../../models/Category';
 
 export default function CategoriesModule() {
   const [categories, setCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     async function init() {
@@ -28,8 +30,23 @@ export default function CategoriesModule() {
     init();
   }, []);
 
+  async function delCategory(categoryId: number) {
+    setSuccessMessage('');
+    setErrorMessage('');
+    const response = await deleteCategory(categoryId);
+    if (response) {
+      setErrorMessage('Something went wrong');
+    } else {
+      setSuccessMessage('Category was deleted successfully');
+      const filteredCategories = categories.filter(c => c.id !== categoryId);
+      setCategories(filteredCategories);
+    }
+  }
+
   return (
     <div className={css.page}>
+      {successMessage && <p>{successMessage}</p>}
+      {errorMessage && <p>{errorMessage}</p>}
       <div className={css.categories}>
         <h1>Manage categories</h1>
         <Link className={css.createLink} to='/admin/categories/create'>Create new category</Link>
@@ -43,7 +60,7 @@ export default function CategoriesModule() {
                 <h2>{c.name}</h2>
               </div>
               <div className={css.btnContainer}>
-                <button>
+                <button onClick={() => delCategory(c.id)}>
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <Link to={'/admin/categories/' + c.accessUrl}>

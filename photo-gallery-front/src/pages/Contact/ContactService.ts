@@ -6,6 +6,6 @@ export async function sendMail(form: Mail) {
     await httpRequest.post('/mail/send', form);
     return null;
   } catch (error: any) {
-    return error.response.data.errors;
+    return error.response.data.errors || error.response.data.error;
   }
 }

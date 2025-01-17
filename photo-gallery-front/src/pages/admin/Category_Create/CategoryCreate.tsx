@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import css from './CategoryCreate.module.css';
 import { Link } from 'react-router-dom';
+import { createCategory } from '../../../services/CategoryService';
 
 
 interface Form {
@@ -14,12 +15,30 @@ export default function CategoryCreateComponent() {
     name: '',
     description: ''
   });
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function submitForm(e: React.FormEvent) {
     e.preventDefault();
 
-    console.log(form);
+    setErrorMessage('');
+    setSuccess(false);
+    setLoading(true);
     
+    const response = await createCategory(form);
+    if (response) {
+      setErrorMessage(response);
+      setSuccess(false);
+    } else {
+      setSuccess(true);
+      setForm({
+        name: '',
+        description: ''
+      });
+    }
+
+    setLoading(false);
   }
 
   return (
@@ -54,9 +73,16 @@ export default function CategoryCreateComponent() {
           />
         </div>
 
+        {errorMessage && <p className={css.error}>{errorMessage}</p>}
+        {success && <p className={css.success}>Category has been created</p>}
+
         <div className={css.btnContainer}>
           <Link to='/admin/categories'>Back</Link>
-          <button type='submit'>Save</button>
+          {loading ? (
+            <button type='button' disabled>Saving...</button>
+          ): (
+            <button type='submit'>Save</button>
+          )}
         </div>
       </form>
     </>

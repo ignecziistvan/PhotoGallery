@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react';
-import { getCategoryByAccessUrl } from '../../../services/CategoryService';
+import { getCategoryByAccessUrl, patchCategory } from '../../../services/CategoryService';
 import { getPhotosOfCategory } from '../../../services/PhotoService';
 import css from './CategoryEdit.module.css';
 import { useParams } from 'react-router-dom';
 import { Photo } from '../../../models/Photo';
-import { Category } from '../../../models/Category';
+import { Category, PatchCategoryRequest } from '../../../models/Category';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faClose } from '@fortawesome/free-solid-svg-icons';
-
-interface Form {
-  name: string;
-  description: string;
-  thumbnailId?: number;
-}
 
 export default function CategoryEditModule() {
   const [category, setCategory] = useState<Category>();
@@ -21,7 +15,7 @@ export default function CategoryEditModule() {
   const { categoryAccessUrl } = useParams();
 
   const [editing, setEditing] = useState<boolean>(false);
-  const [form, setForm] = useState<Form>({
+  const [form, setForm] = useState<PatchCategoryRequest>({
     name: category?.name || '',
     description: category?.description || '',
     thumbnailId: undefined
@@ -29,6 +23,10 @@ export default function CategoryEditModule() {
 
   const [changeThumbnail, setChangeThumbnail] = useState<boolean>(false);
   const [modifiedThumbnail, setModifiedThumbnail] = useState<Photo>();
+
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function init() {
@@ -55,8 +53,21 @@ export default function CategoryEditModule() {
   async function submitForm(e: React.FormEvent) {
     e.preventDefault();
 
-    console.log(form);
-    
+    setErrorMessage('');
+    setSuccess(false);
+    setLoading(true);
+
+    const response = await patchCategory(category?.id, form);
+    if (response) {
+      setErrorMessage(response);
+      setSuccess(false);
+    } else {
+      setSuccess(true);
+      setCategory(await getCategoryByAccessUrl(categoryAccessUrl));
+      setEditing(false);
+    }
+
+    setLoading(false);
   }
 
   function setThumbnail(photo: Photo) {
@@ -107,6 +118,9 @@ export default function CategoryEditModule() {
                 }
               />
             </div>
+
+            {errorMessage && <p className={css.error}>{errorMessage}</p>}
+            {success && <p className={css.success}>Category has been modified</p>}
 
             <div className={css.btnContainer}>
               <button type='button' onClick={() => setEditing(false)}>Discard changes</button>

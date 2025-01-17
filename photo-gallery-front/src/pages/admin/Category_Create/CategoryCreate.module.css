@@ -74,3 +74,10 @@ form .btnContainer a:focus {
   color: #fff;
   border-color: blue;
 }
+
+.error {
+  color: #ee0000;
+}
+.success {
+  color: #54ae00;
+}

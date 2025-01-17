@@ -137,3 +137,12 @@ form .btnContainer {
 .thumbnailSelector div .photoItem:hover {
   transform: scale(1.05);
 }
+
+
+
+.error {
+  color: #ee0000;
+}
+.success {
+  color: #54ae00;
+}

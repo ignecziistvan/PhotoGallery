@@ -20,11 +20,12 @@ export default function ContactComponent() {
     email: '',
     message: ''
   });
-  const [error, setError] = useState<Mail>({
+  const [formErrors, setFormErrors] = useState<Mail>({
     name: '',
     email: '',
     message: ''
   });
+  const [generalErrorMessage, setGeneralErrorMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [sendSuccess, setSendSuccess] = useState<boolean>(false);
 
@@ -41,7 +42,7 @@ export default function ContactComponent() {
     e.preventDefault();
     setLoading(true);
 
-    setError({
+    setFormErrors({
       name: '',
       email: '',
       message: ''
@@ -49,8 +50,11 @@ export default function ContactComponent() {
 
     const response = await sendMail(form);
     if (response) {
-      setError(response);
-      setSendSuccess(false);
+      setFormErrors(response);
+      setGeneralErrorMessage('');
+      if (Array.isArray(response)) {
+        setSendSuccess(false);
+      } else setGeneralErrorMessage(response);
     } else {
       setSendSuccess(true);
     }
@@ -120,7 +124,7 @@ export default function ContactComponent() {
                   name: e.target.value
                 }))
               }
-              error={error.name}
+              error={formErrors.name}
             />
             <FormGroup 
               label=''
@@ -134,7 +138,7 @@ export default function ContactComponent() {
                   email: e.target.value
                 }))
               }
-              error={error.email}
+              error={formErrors.email}
             />
             <div className={css.formGroup}>
               <p>{form.message.length} / 1000 characters</p>
@@ -148,12 +152,13 @@ export default function ContactComponent() {
                 }
                 placeholder='Message'
               />
-              {error.message && (
+              {formErrors.message && (
                 <ul className={css.errors}>
-                  <li className={css.error}>{error.message}</li>
+                  <li className={css.error}>{formErrors.message}</li>
                 </ul>
               )}
             </div>
+            {generalErrorMessage && <p className={css.error}>{generalErrorMessage}</p>}
 
             <button 
               type='submit'
