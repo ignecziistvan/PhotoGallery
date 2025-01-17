@@ -18,7 +18,7 @@ export default function CategoryEditModule() {
   const [form, setForm] = useState<PatchCategoryRequest>({
     name: category?.name || '',
     description: category?.description || '',
-    thumbnailId: undefined
+    thumbnailPhotoId: undefined
   });
 
   const [changeThumbnail, setChangeThumbnail] = useState<boolean>(false);
@@ -46,7 +46,7 @@ export default function CategoryEditModule() {
     setForm({
       name: category?.name || '',
       description: category?.description || '',
-      thumbnailId: undefined
+      thumbnailPhotoId: undefined
       });
   }, [category]);
 
@@ -73,7 +73,7 @@ export default function CategoryEditModule() {
   function setThumbnail(photo: Photo) {
     setForm((prevForm) => ({
       ...prevForm,
-      thumbnailId: photo.id
+      thumbnailPhotoId: photo.id
     }));
 
     setModifiedThumbnail(photo);
@@ -90,7 +90,7 @@ export default function CategoryEditModule() {
                 src={modifiedThumbnail?.thumbnailUrl || category?.thumbnailUrl} 
                 alt={category?.name} 
               />
-              <button onClick={() => setChangeThumbnail(true)}>Change thumbnail</button>
+              <button type="button" onClick={() => setChangeThumbnail(true)}>Change thumbnail</button>
             </div> 
 
             <div className={css.titleContainer}>
@@ -124,7 +124,7 @@ export default function CategoryEditModule() {
 
             <div className={css.btnContainer}>
               <button type='button' onClick={() => setEditing(false)}>Discard changes</button>
-              <button type='submit'>Save</button>
+              {loading ? <button type='button' disabled>Saving...</button> : <button type='submit'>Save</button>}
             </div>
           </form>
         ) : (
@@ -151,7 +151,7 @@ export default function CategoryEditModule() {
 
       {changeThumbnail && 
         <section className={css.thumbnailSelector}>
-          <button onClick={() => setChangeThumbnail(false)}>
+          <button type='button' onClick={() => setChangeThumbnail(false)}>
             <FontAwesomeIcon icon={faClose} />
           </button>
           <div>
