@@ -6,7 +6,7 @@ import { login } from '../../../services/UserService';
 import FormGroup from '../../../components/FormGroup/FormGroup';
 
 
-export default function LoginComponent({ setAuthenticated } : { setAuthenticated: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function LoginComponent() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -17,11 +17,9 @@ export default function LoginComponent({ setAuthenticated } : { setAuthenticated
     setErrors({});
 
     try {
-      await login(username, password, setAuthenticated);
-      navigate('/dashboard');
+      await login(username, password);
+      navigate('/admin/dashboard');
     } catch (e) {
-      console.log(e);
-      
       setErrors(handleErrors(e));
     }
   };

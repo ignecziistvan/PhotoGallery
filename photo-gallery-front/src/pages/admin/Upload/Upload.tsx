@@ -1,10 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ImageUploader from './ImageUploader/ImageUploader';
 import css from './Upload.module.css';
-import { Category } from '../../models/Category';
+import { Category } from '../../../models/Category';
+import { useNavigate } from 'react-router-dom';
+import { authenticate } from '../../../services/UserService';
+import { getCategories } from '../../../services/CategoryService';
 
-export default function Upload({ categories }: { categories: Category[] }) {
+export default function UploadComponent() {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
+
+  useEffect(() => {
+      async function init() {
+        try {
+          const response = await authenticate();
+          if (!response) navigate('/login');
+        } catch (error) {
+          navigate('/login');
+        }
+  
+        const categories = await getCategories();
+        setCategories(categories);
+      };
+  
+      init();
+    }, []);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = parseInt(e.target.value, 10);
