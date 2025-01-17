@@ -29,9 +29,10 @@ export default function CategoriesModule() {
   }, []);
 
   return (
-    <>
-    <section className={css.categorySection}>
+    <div className={css.page}>
+      <div className={css.categories}>
         <h1>Manage categories</h1>
+        <Link className={css.createLink} to='/admin/categories/create'>Create new category</Link>
         <ul className={css.categoryList}>
           {categories.map(c => 
             <li key={'category-' + c.id}>
@@ -41,16 +42,18 @@ export default function CategoriesModule() {
               <div className={css.imgInfo}>
                 <h2>{c.name}</h2>
               </div>
-              <button>
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
-              <Link to={'/admin/categories/' + c.accessUrl}>
-                <FontAwesomeIcon icon={faEdit} />
-              </Link>
+              <div className={css.btnContainer}>
+                <button>
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+                <Link to={'/admin/categories/' + c.accessUrl}>
+                  <FontAwesomeIcon icon={faEdit} />
+                </Link>
+              </div>
             </li>
           )}
         </ul>
-      </section>
-    </>
+      </div>
+    </div>
   );
 }

@@ -9,7 +9,7 @@ import { Category } from '../../../models/Category';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faClose } from '@fortawesome/free-solid-svg-icons';
 
-interface HeaderForm {
+interface Form {
   name: string;
   description: string;
   thumbnailId?: number;
@@ -21,11 +21,12 @@ export default function CategoryEditModule() {
   const { categoryAccessUrl } = useParams();
 
   const [editing, setEditing] = useState<boolean>(false);
-  const [form, setForm] = useState<HeaderForm>({
+  const [form, setForm] = useState<Form>({
     name: category?.name || '',
     description: category?.description || '',
     thumbnailId: undefined
   });
+
   const [changeThumbnail, setChangeThumbnail] = useState<boolean>(false);
   const [modifiedThumbnail, setModifiedThumbnail] = useState<Photo>();
 
@@ -49,9 +50,9 @@ export default function CategoryEditModule() {
       description: category?.description || '',
       thumbnailId: undefined
       });
-  }, [category])
+  }, [category]);
 
-  async function submitHeaderForm(e: React.FormEvent) {
+  async function submitForm(e: React.FormEvent) {
     e.preventDefault();
 
     console.log(form);
@@ -65,20 +66,22 @@ export default function CategoryEditModule() {
     }));
 
     setModifiedThumbnail(photo);
+    setChangeThumbnail(false);
   }
 
   return (
     <>
       <section className={css.info}>
         {editing ? (
-          <form action="#" method="post" onSubmit={submitHeaderForm}>
-            <button onClick={() => setChangeThumbnail(true)}>Change thumbnail</button>
+          <form action="#" method="post" onSubmit={submitForm}>
             <div className={css.thumbnailContainer}>
               <img 
                 src={modifiedThumbnail?.thumbnailUrl || category?.thumbnailUrl} 
                 alt={category?.name} 
               />
-            </div>
+              <button onClick={() => setChangeThumbnail(true)}>Change thumbnail</button>
+            </div> 
+
             <div className={css.titleContainer}>
               <input 
                 type="text" 
@@ -92,26 +95,29 @@ export default function CategoryEditModule() {
               />
             </div>
             <div className={css.descriptionContainer}>
-                <textarea 
-                  name="description" 
-                  id="description" 
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm((prevForm) => ({
-                      ...prevForm,
-                      description: e.target.value
-                    }))
-                  }
-                />
+              <textarea 
+                name="description" 
+                id="description" 
+                value={form.description}
+                onChange={(e) =>
+                  setForm((prevForm) => ({
+                    ...prevForm,
+                    description: e.target.value
+                  }))
+                }
+              />
             </div>
 
-            <button type='button' onClick={() => setEditing(false)}>Discard changes</button>
-            <button type='submit'>Save</button>
+            <div className={css.btnContainer}>
+              <button type='button' onClick={() => setEditing(false)}>Discard changes</button>
+              <button type='submit'>Save</button>
+            </div>
           </form>
         ) : (
           <>
-            <button onClick={() => setEditing(true)}>
+            <button className={css.editButton} onClick={() => setEditing(true)}>
               <FontAwesomeIcon icon={faEdit} />
+              <span>Edit</span>
             </button>
             <div className={css.thumbnailContainer}>
               <img 
@@ -134,11 +140,13 @@ export default function CategoryEditModule() {
           <button onClick={() => setChangeThumbnail(false)}>
             <FontAwesomeIcon icon={faClose} />
           </button>
-          {photos.map(photo => 
-            <div className={css.photoItem} onClick={() => setThumbnail(photo)} >
-              <img src={photo.thumbnailUrl} alt={photo.categoryName} />
-            </div>
-          )}
+          <div>
+            {photos.map(photo => 
+              <div className={css.photoItem} onClick={() => setThumbnail(photo)} key={'thumbnail-' + photo.id} >
+                <img src={photo.thumbnailUrl} alt={photo.categoryName} />
+              </div>
+            )}
+          </div>
         </section>
       }
     </>

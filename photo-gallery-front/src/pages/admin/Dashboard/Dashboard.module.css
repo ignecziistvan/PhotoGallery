@@ -1,9 +1,10 @@
 .page {
   align-self: center;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 90%;
+  width: 80%;
+  background: #111;
+  min-height: 100vh;
+  
 }
 
 .logout {
@@ -21,54 +22,20 @@
 }
 
 
-.uploadSection {
-  width: 80%;
-}
 
-
-
-
-.categorySection {
-  margin-top: 4em;
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-}
-.categoryList {
-  width: 100%;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.options {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1em;
-}
-.categoryList li {
-  display: flex;
-  align-items: center;
-  height: 5em;
-  background: #222;
-  border-radius: 1em;
-  padding: 0.5em;
-  margin-bottom: 0.5em;
-  cursor: pointer;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2em;
+  padding: 2em;
 }
 
-.categoryList li .imgContainer {
-  height: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 1em;
-}
-.categoryList li .imgContainer img {
-  height: 100%;
-  object-fit: cover;
-}
-
-.categoryList li .imgInfo {
-  height: 100%;
+.option {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  padding-left: 1em;
+  align-items: center;
+  justify-content: center;
+  padding: 2em;
+  border: 1px solid #666;
+  background: #222;
 }

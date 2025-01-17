@@ -1,0 +1,76 @@
+form {
+  margin: 0 auto;
+  margin-top: 5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+}
+form .thumbnailContainer {
+  margin: 1em;
+}
+form .thumbnailContainer:hover img {
+  opacity: 0.5;
+}
+form .thumbnailContainer:hover button {
+  display: block;
+}
+form .thumbnailContainer button {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #000;
+  transform: translate(-50%, -50%);
+}
+
+form .titleContainer {
+  width: 80%;
+}
+form .titleContainer input {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2em;
+  background: #111;
+  color: #fff;
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid #fff;
+}
+
+form .descriptionContainer {
+  width: 80%;
+}
+form .descriptionContainer textarea {
+  width: 100%;
+  min-height: 8em;
+  background: #111;
+  border: 0;
+  outline: 0;
+  font-size: 1.1em;
+  overflow-y: scroll;
+  padding: 1em;
+}
+
+form .btnContainer {
+  display: flex;
+  gap: 1em;
+  margin: 1em;
+}
+
+form .btnContainer button,
+form .btnContainer a {
+  padding: 0.5em 2em;
+  background: #222;
+  color: #fff;
+  border-radius: 0.5em;
+  border: 1px solid #222;
+  transition: border-color 0.2s;
+}
+form .btnContainer button:hover,
+form .btnContainer a:hover,
+form .btnContainer button:focus,
+form .btnContainer a:focus {
+  color: #fff;
+  border-color: blue;
+}

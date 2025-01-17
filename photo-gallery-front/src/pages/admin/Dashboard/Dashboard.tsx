@@ -31,12 +31,14 @@ export default function DashboardComponent() {
         </button>
       </section>
 
-      <Link to='/admin/upload' className={css.option}>
-        <h1>Upload photos</h1>
-      </Link>
-      <Link to='/admin/categories' className={css.option}>
-        <h1>Manage categories</h1>
-      </Link>
+      <section className={css.options}>
+        <Link to='/admin/upload' className={css.option}>
+          <h1>Upload photos</h1>
+        </Link>
+        <Link to='/admin/categories' className={css.option}>
+          <h1>Manage categories</h1>
+        </Link>
+      </section>
     </div>
   );
 }
