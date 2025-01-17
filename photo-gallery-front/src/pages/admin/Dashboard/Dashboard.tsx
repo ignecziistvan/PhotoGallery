@@ -1,59 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import css from './Dashboard.module.css';
-import { getCategories } from '../../../services/CategoryService';
-import { Category } from '../../../models/Category';
-import Upload from '../../../components/Upload/Upload';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward } from '@fortawesome/free-solid-svg-icons/faBackward';
-import { logout } from '../../../services/UserService';
+import { faBackward } from '@fortawesome/free-solid-svg-icons';
+import { authenticate, logout } from '../../../services/UserService';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function DashboardComponent({ authenticated, setAuthenticated } : { authenticated: boolean, setAuthenticated: React.Dispatch<React.SetStateAction<boolean>> }) {
-  const [categories, setCategories] = useState<Category[]>([]);
+export default function DashboardComponent() {
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function init() {
-      const categories = await getCategories();
-      setCategories(categories);
+      try {
+        const response = await authenticate();
+        if (!response) navigate('/login');
+      } catch (error) {
+        navigate('/login');
+      }
     };
 
     init();
   }, []);
 
-  if (!authenticated) {
-    return (
-      <>
-        <h1>You have no permission to visit this page</h1>
-      </>
-    );
-  } else return (
+  return (
     <div className={css.page}>
       <section className={css.logout}>
-        <button onClick={() => logout(setAuthenticated)}>
+        <button onClick={() => logout()}>
           <FontAwesomeIcon icon={faBackward} />
           Logout
         </button>
       </section>
 
-      <section className={css.uploadSection}>
-        <h1>Upload photos</h1>
-        <Upload categories={categories} />
-      </section>
-
-      <section className={css.categorySection}>
-        <h1>Manage categories</h1>
-        <ul className={css.categoryList}>
-          {categories.map(c => 
-            <li key={'category-' + c.id}>
-              <div className={css.imgContainer}>
-                <img src={c.thumbnailUrl} alt={c.name} />
-              </div>
-              <div className={css.imgInfo}>
-                <h2>{c.name}</h2>
-              </div>
-            </li>
-          )}
-        </ul>
+      <section className={css.options}>
+        <Link to='/admin/upload' className={css.option}>
+          <h1>Upload photos</h1>
+        </Link>
+        <Link to='/admin/categories' className={css.option}>
+          <h1>Manage categories</h1>
+        </Link>
       </section>
     </div>
   );

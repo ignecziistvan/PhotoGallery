@@ -20,20 +20,18 @@ export async function authenticate() {
 }
 
 
-export const login = async (username: string, password: string, setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>) => { 
+export const login = async (username: string, password: string) => { 
   const response = await httpRequest.post('login', {
     username: username,
     password: password
   });
   const token = response.data;
   localStorage.setItem('JWToken', token);
-  setAuthenticated(true);
 }
 
-export const logout = (setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const logout = () => {
   try {
     localStorage.removeItem('JWToken');
-    setAuthenticated(false);
     window.location.href = '/';
   } catch (e) {
     window.location.href = '/';

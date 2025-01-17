@@ -76,6 +76,7 @@
 }
 
 .flex form {
+  margin-top: 0;
   background: #fff;
   padding: 1em;
   width: 40%;
@@ -137,6 +138,10 @@
   padding: 0;
 }
 .errors li {
+  color: #e00000;
+}
+
+.error {
   color: #e00000;
 }
 

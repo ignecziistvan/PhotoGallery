@@ -6,7 +6,7 @@ import { login } from '../../../services/UserService';
 import FormGroup from '../../../components/FormGroup/FormGroup';
 
 
-export default function LoginComponent({ setAuthenticated } : { setAuthenticated: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function LoginComponent() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -17,39 +17,49 @@ export default function LoginComponent({ setAuthenticated } : { setAuthenticated
     setErrors({});
 
     try {
-      await login(username, password, setAuthenticated);
-      navigate('/dashboard');
+      await login(username, password);
+      navigate('/admin/dashboard');
     } catch (e) {
-      console.log(e);
-      
       setErrors(handleErrors(e));
     }
   };
 
   return (
-    <>
+    <div className={css.page}>
       <form onSubmit={submitForm} className={css.loginForm}>
-          <h1>Login</h1>
-          <FormGroup 
-            type='text'
-            label='Username'
+        <h1>Login</h1>
+        <div className={css.formGroup}>
+          <label htmlFor='username'>Username</label>
+          <input 
+            type='text' 
             id='username'
-            placeholder='Enter your username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            error={errors.username}
+            placeholder='Enter your username'
           />
-          <FormGroup 
-            type='password'
-            label='Password'
+          {errors.username && (
+            <ul className={css.errors}>
+              <li className={css.error}>{errors.username}</li>
+            </ul>
+          )}
+        </div>
+        <div className={css.formGroup}>
+          <label htmlFor='password'>Password</label>
+          <input 
+            type='password' 
             id='password'
-            placeholder='Enter your password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            error={errors.password}
+            placeholder='Enter your password'
           />
-          <button type='submit'>Login</button>
-        </form>
-    </>
+          {errors.password && (
+            <ul className={css.errors}>
+              <li className={css.error}>{errors.password}</li>
+            </ul>
+          )}
+        </div>
+        <button type='submit'>Login</button>
+      </form>
+    </div>
   );
 }

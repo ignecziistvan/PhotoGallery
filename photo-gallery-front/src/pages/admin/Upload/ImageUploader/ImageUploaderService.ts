@@ -1,4 +1,4 @@
-import httpRequest from "../../../interceptors/HttpRequest";
+import httpRequest from "../../../../interceptors/HttpRequest";
 
 export async function uploadFiles(
   categoryId: number, 

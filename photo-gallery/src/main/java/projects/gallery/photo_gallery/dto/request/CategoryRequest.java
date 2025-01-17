@@ -9,7 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LoginDto {
-    private String username;
-    private String password;
+public class CategoryRequest {
+    private String name;
+    private String description;
+    private Long thumbnailPhotoId;
 }

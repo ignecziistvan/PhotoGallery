@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>projects.gallery</groupId>
 	<artifactId>photo-gallery</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.8</version>
 	<name>photo-gallery</name>
 	<description>Photo gallery API</description>
 	<url/>

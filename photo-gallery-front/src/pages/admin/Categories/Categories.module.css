@@ -1,0 +1,92 @@
+.page {
+  width: 70%;
+  margin: 0 auto;
+  background: #111;
+  padding-inline: 1em;
+  min-height: 100vh;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.categories .createLink {
+  align-self: flex-end;
+  margin: 2em;
+  border: 1px solid #222;
+  background: #222;
+  padding: 0.8em 1em;
+  border-radius: 1em;
+  transition: border-color 0.2s;
+}
+.categories .createLink:hover,
+.categories .createLink:focus {
+  color: #fff;
+  border-color: blue;
+}
+
+.categoryList {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+}
+.categoryList li {
+  display: flex;
+  align-items: center;
+  height: 5em;
+  background: #222;
+  border-radius: 1em;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.categoryList li .imgContainer {
+  height: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 1em;
+}
+.categoryList li .imgContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.categoryList li .imgInfo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-left: 1em;
+}
+
+.categoryList li  .btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin: 0.5em;
+  margin-left: auto;
+}
+
+.categoryList li  .btnContainer button,
+.categoryList li  .btnContainer a {
+  background: #111;
+  padding: 0.8em 1em;
+  border-radius: 1em;
+  border: 1px solid #111;
+  transition: border-color 0.2s;
+}
+.categoryList li  .btnContainer button:hover,
+.categoryList li  .btnContainer button:focus,
+.categoryList li  .btnContainer a:hover,
+.categoryList li  .btnContainer a:focus {
+  border-color: blue;
+  color: #fff;
+}

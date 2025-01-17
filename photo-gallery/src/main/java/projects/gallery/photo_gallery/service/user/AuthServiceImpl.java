@@ -6,10 +6,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import projects.gallery.photo_gallery.dto.request.LoginDto;
-import projects.gallery.photo_gallery.exception.NotFoundException;
+import projects.gallery.photo_gallery.dto.request.LoginRequest;
 import projects.gallery.photo_gallery.exception.UnauthorizedException;
 import projects.gallery.photo_gallery.model.user.User;
 import projects.gallery.photo_gallery.repository.user.UserRepository;
@@ -31,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginDto dto) {
+    public String login(LoginRequest dto) {
         try {
             userRepository.findByUsername(dto.getUsername()).orElseThrow(
                     () -> new UnauthorizedException(
