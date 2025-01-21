@@ -16,5 +16,5 @@ export interface CreateCategoryRequest {
 export interface PatchCategoryRequest {
   name: string;
   description: string;
-  thumbnailId?: number;
+  thumbnailPhotoId?: number;
 }

@@ -44,7 +44,7 @@ export default function HomeComponent() {
 
   function handleScrollToSelected() {
     const currentIndex = categories.findIndex(c => c.id === selectedCategory?.id);
-    return -(currentIndex - 1) * 14;
+    return window.innerWidth <= 768 ? -((currentIndex - 0.25) * 65) : -(currentIndex - 1) * 35;
   }
 
   return (
@@ -52,7 +52,7 @@ export default function HomeComponent() {
       <section 
         className={css.introduce}
         style={{ 
-          opacity: 1 - windowScroll * 5 / window.innerHeight
+          opacity: window.innerWidth > 768 ? (1 - windowScroll * 5 / window.innerHeight) : (1 - windowScroll * 1.2 / window.innerHeight)
         }}
       >
         <div className={css.imgContainer}>
@@ -90,8 +90,8 @@ export default function HomeComponent() {
           <div 
             className={css.categoryList}
             style={{
-              transform: "translateX(" + handleScrollToSelected() + "em)",
-              transition: "transform 0.4s ease",
+              transform: "translateX(" + handleScrollToSelected() + "%)",
+              transition: "transform 0.4s ease"
             }}
           >
             {categories.map(category => 

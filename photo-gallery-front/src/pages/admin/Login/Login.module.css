@@ -82,3 +82,14 @@ input {
 .errors li {
   color: #e00000;
 }
+
+@media (max-width: 768px) {
+  .loginForm {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 0;
+    padding: 0;
+    border-radius: 0;
+    justify-content: center;
+  }
+}
