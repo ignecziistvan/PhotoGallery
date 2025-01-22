@@ -6,34 +6,23 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import projects.gallery.photo_gallery.dto.request.MailRequest;
-import projects.gallery.photo_gallery.exception.BadRequestException;
 import projects.gallery.photo_gallery.exception.GeneralException;
 import projects.gallery.photo_gallery.service.interfaces.MailService;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-@Deprecated
-@Service("mailServiceV1")
-public class MailServiceImpl implements MailService {
+@Service("mailServiceV2")
+public class MailServiceImplV2 implements MailService {
     private final JavaMailSender mailSender;
     private final Environment env;
 
     @Autowired
-    public MailServiceImpl(JavaMailSender mailSender, Environment env) {
+    public MailServiceImplV2(JavaMailSender mailSender, Environment env) {
         this.mailSender = mailSender;
         this.env = env;
     }
 
+
     @Override
     public void sendMail(MailRequest dto) {
-        Map<String, String> errors = validateMail(dto);
-
-        if (!errors.isEmpty()) {
-            throw new BadRequestException("Error sending the message", errors);
-        }
-
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(env.getProperty("admin.email"));
@@ -73,34 +62,5 @@ public class MailServiceImpl implements MailService {
         } catch (Exception e) {
             throw new GeneralException("Something went wrong");
         }
-    }
-
-    private Map<String, String> validateMail(MailRequest dto) {
-        String NAME_REGEX = "^[A-Za-zÀ-ÖØ-öø-ÿ]+(\\s[A-Za-zÀ-ÖØ-öø-ÿ]+)+$";
-        String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        int MESSAGE_MAX_LENGTH = 1000;
-
-        Map<String, String> errors = new HashMap<>();
-
-        if (dto.getName() == null || dto.getName().isBlank()) {
-            errors.put("name", "Name cannot be empty");
-        } else if (!Pattern.matches(NAME_REGEX, dto.getName())) {
-            errors.put("name", "Enter your full name");
-        }
-
-
-        if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-            errors.put("email", "Email cannot be empty");
-        } else if (!Pattern.matches(EMAIL_REGEX, dto.getEmail())) {
-            errors.put("email", "Invalid email format");
-        }
-
-        if (dto.getMessage() == null || dto.getMessage().isBlank()) {
-            errors.put("message", "Message cannot be empty");
-        } else if (dto.getMessage().length() > MESSAGE_MAX_LENGTH) {
-            errors.put("message", "Message must be maximum " + MESSAGE_MAX_LENGTH + " characters long");
-        }
-
-        return errors;
     }
 }
