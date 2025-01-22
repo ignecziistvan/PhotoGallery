@@ -2,7 +2,9 @@ package projects.gallery.photo_gallery.service.media;
 
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import projects.gallery.photo_gallery.exception.BadRequestException;
@@ -14,32 +16,34 @@ import projects.gallery.photo_gallery.repository.media.PhotoRepository;
 import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Primary
 public class CloudinaryPhotoUploadService implements PhotoUploadService {
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private PhotoRepository photoRepository;
-    @Autowired
-    private Cloudinary cloudinary;
+    private final CategoryRepository categoryRepository;
+    private final PhotoRepository photoRepository;
+    private final Cloudinary cloudinary;
+    private final MessageSource messageSource;
     private static final List<String> SUPPORTED_IMAGE_TYPES = List.of("jpeg", "jpg", "png", "webp");
+
+    @Autowired
+    public CloudinaryPhotoUploadService(CategoryRepository categoryRepository, PhotoRepository photoRepository, Cloudinary cloudinary, MessageSource messageSource) {
+        this.categoryRepository = categoryRepository;
+        this.photoRepository = photoRepository;
+        this.cloudinary = cloudinary;
+        this.messageSource = messageSource;
+    }
 
     @Override
     public void upload(Long categoryId, MultipartFile[] files) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new NotFoundException(
-                        "Category was not found"
+                        messageSource.getMessage("category-not-found", null, "Category was not found", LocaleContextHolder.getLocale())
                 )
         );
 
         List<String> invalidFileNames = new ArrayList<>();
-        System.out.println(Arrays.toString(files));
         for (MultipartFile file : files) {
             try {
                 validateFileType(file);
@@ -48,7 +52,10 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
             }
         }
         if (!invalidFileNames.isEmpty() && files.length > 1) {
-            throw new BadRequestException("Unsupported files: " + String.join(", ", invalidFileNames));
+            throw new BadRequestException(
+                    messageSource.getMessage("unsupported-files", null, "Unsupported files", LocaleContextHolder.getLocale()) +
+                            ": " +
+                            String.join(", ", invalidFileNames));
         }
 
         for (MultipartFile file : files) {
@@ -63,8 +70,6 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
                                 "resource_type", "image"
                         )
                 );
-
-                System.out.println(result);
 
                 String imageUrl = result.get("secure_url").toString();
                 String thumbnailUrl = createThumbnailUrl(imageUrl);
@@ -89,7 +94,7 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
     public void delete(Long photoId) {
         Photo photo = photoRepository.findById(photoId).orElseThrow(
                 () -> new NotFoundException(
-                        "Photo was not found"
+                        messageSource.getMessage("photo-not-found", null, "Photo was not found", LocaleContextHolder.getLocale())
                 )
         );
 
@@ -112,14 +117,24 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
                         !contentType.startsWith("image/")
         ) {
             throw new BadRequestException(
-                    "Unsupported or invalid media type: " + contentType
+                    messageSource.getMessage(
+                            "unsupported-or-invalid-media-type",
+                            null,
+                            "Unsupported or invalid media type",
+                            LocaleContextHolder.getLocale()
+                    ) + ": " + contentType
             );
         }
 
         boolean isSupportedMediaType = SUPPORTED_IMAGE_TYPES.stream().anyMatch(contentType::endsWith);
         if (!isSupportedMediaType) {
             throw new BadRequestException(
-                    "Unsupported image type: " + contentType
+                    messageSource.getMessage(
+                            "unsupported-image-type",
+                            null,
+                            "Unsupported image type",
+                            LocaleContextHolder.getLocale()
+                    ) + ": " + contentType
             );
         }
 

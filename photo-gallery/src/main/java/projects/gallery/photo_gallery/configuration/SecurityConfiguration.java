@@ -51,6 +51,10 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/mail/send").permitAll()
                                 .requestMatchers("/api/owner").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
+                                .requestMatchers(
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
