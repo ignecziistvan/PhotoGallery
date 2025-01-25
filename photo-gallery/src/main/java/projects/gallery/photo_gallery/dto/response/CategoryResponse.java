@@ -18,7 +18,7 @@ public class CategoryResponse {
         this.description = c.getDescription();
 
         if (c.getThumbnailPhoto() != null) {
-            this.thumbnailUrl = c.getThumbnailPhoto().getUrl();
+            this.thumbnailUrl = c.getThumbnailPhoto().getThumbnailUrl();
         } else {
             this.thumbnailUrl = null;
         }

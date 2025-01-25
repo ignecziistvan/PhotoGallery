@@ -10,7 +10,7 @@ import projects.gallery.photo_gallery.exception.NotFoundException;
 import projects.gallery.photo_gallery.model.media.Category;
 import projects.gallery.photo_gallery.model.media.Photo;
 import projects.gallery.photo_gallery.repository.media.CategoryRepository;
-import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
+import projects.gallery.photo_gallery.service.interfaces.media.AuthenticatedPhotoService;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 @Service
-public class LocalPhotoUploadService implements PhotoUploadService {
+public class LocalAuthenticatedPhotoService implements AuthenticatedPhotoService {
     @Autowired
     private CategoryRepository categoryRepository;
     private static final List<String> SUPPORTED_IMAGE_TYPES = List.of("jpeg", "jpg", "png", "webp");

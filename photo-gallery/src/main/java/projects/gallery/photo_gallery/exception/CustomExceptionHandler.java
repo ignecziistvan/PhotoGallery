@@ -48,11 +48,13 @@ public class CustomExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleFormValidationExceptions(MethodArgumentNotValidException e) {
+    public ResponseEntity<CustomExceptionResponse> handleFormValidationExceptions(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getFieldErrors().forEach(
                 error -> errors.put(error.getField(), error.getDefaultMessage())
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new CustomExceptionResponse("Error validating data", errors)
+        );
     }
 }

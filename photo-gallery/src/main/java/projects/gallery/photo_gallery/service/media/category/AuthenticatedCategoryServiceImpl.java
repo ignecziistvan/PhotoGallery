@@ -1,31 +1,27 @@
-package projects.gallery.photo_gallery.service.media;
+package projects.gallery.photo_gallery.service.media.category;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import projects.gallery.photo_gallery.dto.request.CategoryRequest;
-import projects.gallery.photo_gallery.dto.response.CategoryResponse;
-import projects.gallery.photo_gallery.dto.response.PhotoResponse;
 import projects.gallery.photo_gallery.exception.BadRequestException;
 import projects.gallery.photo_gallery.exception.NotFoundException;
 import projects.gallery.photo_gallery.model.media.Category;
 import projects.gallery.photo_gallery.model.media.Photo;
 import projects.gallery.photo_gallery.repository.media.CategoryRepository;
 import projects.gallery.photo_gallery.repository.media.PhotoRepository;
-import projects.gallery.photo_gallery.service.interfaces.media.MediaService;
+import projects.gallery.photo_gallery.service.interfaces.media.AuthenticatedCategoryService;
 
-import java.util.List;
-
-@Deprecated
 @Service
-public class MediaServiceImpl implements MediaService {
+public class AuthenticatedCategoryServiceImpl implements AuthenticatedCategoryService {
     private final CategoryRepository categoryRepository;
     private final PhotoRepository photoRepository;
     private final MessageSource messageSource;
 
     @Autowired
-    public MediaServiceImpl(CategoryRepository categoryRepository, PhotoRepository photoRepository, MessageSource messageSource) {
+    public AuthenticatedCategoryServiceImpl(CategoryRepository categoryRepository, PhotoRepository photoRepository, MessageSource messageSource) {
         this.categoryRepository = categoryRepository;
         this.photoRepository = photoRepository;
         this.messageSource = messageSource;
@@ -33,55 +29,9 @@ public class MediaServiceImpl implements MediaService {
 
 
     @Override
-    public CategoryResponse getCategoryById(Long id) {
-        return new CategoryResponse(findCategory(id));
-    }
-
-    @Override
-    public List<CategoryResponse> getAllCategories() {
-        return categoryRepository.findAll().stream().map(CategoryResponse::new).toList();
-    }
-
-    @Override
-    public List<PhotoResponse> getPhotosOfCategory(Long categoryId) {
-        return findCategory(categoryId).getPhotos().stream().map(PhotoResponse::new).toList();
-    }
-
-    @Override
-    public PhotoResponse getPhotoById(Long id) {
-        return new PhotoResponse(
-                photoRepository.findById(id).orElseThrow(
-                        () -> new NotFoundException(
-                                messageSource.getMessage("photo-not-found", null, "Photo was not found", LocaleContextHolder.getLocale())
-                        )
-                )
-        );
-    }
-
-    @Deprecated
-    @Override
-    public Category createCategory(CategoryRequest dto) {
-        if (dto.getName() == null || dto.getName().isBlank()) {
-            throw new BadRequestException(messageSource.getMessage(
-                    "category-name-cannot-be-empty",
-                    null,
-                    "Category name must be provided",
-                    LocaleContextHolder.getLocale()
-            ));
-        }
-
+    public Category createCategory(@Valid CategoryRequest dto) {
         Category category = new Category(dto.getName());
-
-        if (dto.getDescription() == null || !dto.getDescription().isBlank()) {
-            if (dto.getDescription().length() > 500) {
-                throw new BadRequestException(messageSource.getMessage(
-                        "max-length-description-500",
-                        null,
-                        "Max length for description is 500",
-                        LocaleContextHolder.getLocale()
-                ));
-            } else category.setDescription(dto.getDescription());
-        }
+        category.setDescription(dto.getDescription());
 
         if (categoryRepository.findByAccessUrl(category.getAccessUrl()).isPresent()) {
             throw new BadRequestException(messageSource.getMessage(
@@ -102,15 +52,15 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public void patchCategory(CategoryRequest dto, Long categoryId) {
+    public Category patchCategory(@Valid CategoryRequest dto, Long categoryId) {
         Category category = findCategory(categoryId);
         boolean isChanged = false;
 
-        if (dto.getName() != null && !dto.getName().isBlank() && !dto.getName().equals(category.getName())) {
+        if (!dto.getName().equals(category.getName())) {
             category.setName(dto.getName());
             isChanged = true;
         }
-        if (dto.getDescription() != null && !dto.getDescription().isBlank() && !dto.getDescription().equals(category.getDescription())) {
+        if (!dto.getDescription().equals(category.getDescription())) {
             category.setDescription(dto.getDescription());
             isChanged = true;
         }
@@ -144,7 +94,7 @@ public class MediaServiceImpl implements MediaService {
         }
 
         if (isChanged) {
-            categoryRepository.save(category);
+            return categoryRepository.save(category);
         } else {
             throw new BadRequestException(messageSource.getMessage(
                     "nothing-to-change",

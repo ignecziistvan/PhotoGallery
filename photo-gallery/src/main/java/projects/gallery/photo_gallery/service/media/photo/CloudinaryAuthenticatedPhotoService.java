@@ -1,4 +1,4 @@
-package projects.gallery.photo_gallery.service.media;
+package projects.gallery.photo_gallery.service.media.photo;
 
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +13,14 @@ import projects.gallery.photo_gallery.model.media.Category;
 import projects.gallery.photo_gallery.model.media.Photo;
 import projects.gallery.photo_gallery.repository.media.CategoryRepository;
 import projects.gallery.photo_gallery.repository.media.PhotoRepository;
-import projects.gallery.photo_gallery.service.interfaces.PhotoUploadService;
+import projects.gallery.photo_gallery.service.interfaces.media.AuthenticatedPhotoService;
 
 import java.io.IOException;
 import java.util.*;
 
 @Service
 @Primary
-public class CloudinaryPhotoUploadService implements PhotoUploadService {
+public class CloudinaryAuthenticatedPhotoService implements AuthenticatedPhotoService {
     private final CategoryRepository categoryRepository;
     private final PhotoRepository photoRepository;
     private final Cloudinary cloudinary;
@@ -28,7 +28,7 @@ public class CloudinaryPhotoUploadService implements PhotoUploadService {
     private static final List<String> SUPPORTED_IMAGE_TYPES = List.of("jpeg", "jpg", "png", "webp");
 
     @Autowired
-    public CloudinaryPhotoUploadService(CategoryRepository categoryRepository, PhotoRepository photoRepository, Cloudinary cloudinary, MessageSource messageSource) {
+    public CloudinaryAuthenticatedPhotoService(CategoryRepository categoryRepository, PhotoRepository photoRepository, Cloudinary cloudinary, MessageSource messageSource) {
         this.categoryRepository = categoryRepository;
         this.photoRepository = photoRepository;
         this.cloudinary = cloudinary;
