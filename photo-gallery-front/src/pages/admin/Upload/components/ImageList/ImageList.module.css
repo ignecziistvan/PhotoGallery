@@ -1,0 +1,54 @@
+.fileListContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fileListContainer ul {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fileListContainer ul li {
+  display: flex;
+  align-items: center;
+  height: 5em;
+  background: #222;
+  border-radius: 1em;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.fileListContainer ul li .imgContainer {
+  height: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 1em;
+}
+.fileListContainer ul li .imgContainer img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.fileListContainer ul li .imgInfo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-left: 1em;
+}
+.fileListContainer ul li .imgInfo p {
+  margin: 0;
+  padding: 0;
+}
+.fileListContainer .btnContainer {
+  display: flex;
+  gap: 1em;
+  margin-left: auto;
+}
+.fileListContainer ul li button {
+  text-align: center;
+}
