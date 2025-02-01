@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(
                         request -> request
+                                .requestMatchers("/").permitAll()
                                 .requestMatchers("/api/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/media/**").permitAll()
                                 .requestMatchers("/api/media/open/**").permitAll()

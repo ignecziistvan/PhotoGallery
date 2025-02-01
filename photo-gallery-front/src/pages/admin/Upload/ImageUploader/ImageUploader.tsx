@@ -1,75 +1,80 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import css from './ImageUploader.module.css';
-import { useDropzone } from 'react-dropzone';
 import { uploadFiles } from './ImageUploaderService';
+import ImageCropper from '../components/ImageCropper/ImageCropper';
+import ImageDropZone from '../components/ImageDropZone/ImageDropZone';
+import ImageList from '../components/ImageList/ImageList';
+import 'react-photo-view/dist/react-photo-view.css';
 
-export default function ImageUploader({ categoryId } : { categoryId: number }) {
+export default function ImageUploader({ categoryId }: { categoryId: number }) {
   const [files, setFiles] = useState<File[]>([]);
   const [posting, setPosting] = useState<boolean>(false);
+  const [croppingFile, setCroppingFile] = useState<File | undefined>(undefined);
+  const [progress, setProgress] = useState<number>(0);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'image/jpeg': [],
-      'image/png': []
-    },
-    multiple: true
-  });
-
-  function removeFileFromList(file: File) {
-    setFiles(files.filter(f => f !== file));
+  function onCropDone(croppedFile: File | undefined) {
+    if (!croppingFile || !croppedFile) return;
+  
+    const updatedFiles = files.map((file) =>
+      file.name === croppingFile.name ? croppedFile : file
+    );
+  
+    setFiles(updatedFiles);
+    setCroppingFile(undefined);
   }
 
-  if (posting) {
+  function onCropCancel() {
+    setCroppingFile(undefined);
+  }
+
+  if (croppingFile) {
+    return (
+      <ImageCropper
+        file={croppingFile}
+        onCropDone={onCropDone}
+        onCropCancel={onCropCancel}
+      />
+    );
+  } else {
     return (
       <div className={css.uploaderComponent}>
-        <h1>Uploading</h1>
-      </div>
-    );
-  } else return (
-    <div className={css.uploaderComponent}>
-      <div className={css.uploadSection}>
-        <div {...getRootProps()} className={css.dropzone}>
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the files here...</p>
-          ) : (
-            <p>Drop files here or click to select files</p>
+        <div className={css.uploadSection}>
+          <ImageDropZone setFiles={setFiles} />
+          {files.length > 0 && (
+            <button
+              className={css.uploadButton}
+              onClick={() => uploadFiles(categoryId, files, setPosting, setFiles, setProgress)}
+            >
+              Upload
+            </button>
           )}
         </div>
 
-        {files.length > 0 && 
-        <button 
-          className={css.uploadButton} 
-          onClick={() => uploadFiles(categoryId, files, setPosting, setFiles)}
-        >Upload</button>
+        {posting &&
+          <>
+            <h2>Uploading...</h2>
+            <h3>Please wait</h3>
+            <div className={css.progressBar}>
+              <div 
+                className={css.progress} 
+                style={{
+                  width: progress + '%'
+                }}
+              ></div>
+            </div>
+            <p>{progress}%</p>
+          </>
         }
-        
-      </div>
 
-      {files.length > 0 && 
-        <div className={css.fileListContainer}>
-          <h3>Files to upload</h3>
-          <ul>
-            {files.map((file, index) => (
-              <li key={index}>
-                <div className={css.imgContainer}>
-                  <img src={URL.createObjectURL(file)} alt={file.name} />
-                </div>
-                <div className={css.imgInfo}>
-                  <p>Name: {file.name}</p>
-                  <p>Size: {(file.size / 1024 / 1024).toFixed(2) + ' MB'}</p>
-                </div>
-                <button onClick={() => removeFileFromList(file)}>X</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      }
-    </div>
-  );
+        {files.length > 0 && (
+          <ImageList 
+            files={files} 
+            setFiles={setFiles} 
+            setCrop={setCroppingFile} 
+            posting={posting}
+          />
+        )}
+      </div>
+    );
+  }
 }

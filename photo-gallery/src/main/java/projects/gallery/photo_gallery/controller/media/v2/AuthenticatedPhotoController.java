@@ -22,7 +22,7 @@ public class AuthenticatedPhotoController {
     @PostMapping("/upload")
     public String uploadPhotos(
             @RequestParam Long categoryId,
-            @RequestParam("files[]") MultipartFile[] files
+            @RequestParam("files") MultipartFile[] files
     ) {
         photoService.upload(categoryId, files);
         return messageSource.getMessage(

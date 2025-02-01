@@ -4,11 +4,11 @@
 
 .page {
   width: 100%;
-  height: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #fff;
 }
 
 .background {
@@ -25,6 +25,7 @@
 }
 
 .intro {
+  margin-top: 5em;
   text-align: center;
   width: 50%;
 }
@@ -58,6 +59,11 @@
   align-items: center;
   justify-content: center;
   color: #000;
+}
+
+.flex .contents .info .svgContainer a {
+  width: 1.1em;
+  height: 1.1em;
 }
 
 .flex .contents .info .flexCol {
@@ -160,8 +166,8 @@
     flex-direction: column;
   }
   .flex .contents {
-    width: 100%;
-    align-items: center;
+    width: auto;
+    padding-inline: 2em;
   }
   .flex .contents .info {
     margin-bottom: 0;

@@ -1,7 +1,7 @@
 import css from './Categories.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit, faAdd } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { authenticate } from '../../../services/UserService';
 import { Link, useNavigate } from 'react-router-dom';

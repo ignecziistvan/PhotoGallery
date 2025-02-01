@@ -1,12 +1,13 @@
 .page {
+  padding-top: 3em;
   display: flex;
   gap: 2em;
 }
 
 .categorySelection {
-  width: 20%;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .categorySelection h2 {
   margin: 0;

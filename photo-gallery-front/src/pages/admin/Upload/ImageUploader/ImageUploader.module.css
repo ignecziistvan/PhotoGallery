@@ -1,4 +1,6 @@
 .uploaderComponent {
+  width: 80%;
+  align-items: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,15 +16,6 @@
   padding: 1em;
 }
 
-.dropzone {
-  width: 80%;
-  background: #333;
-  cursor: pointer;
-  padding: 1em;
-  border-radius: 1em;
-  text-align: center;
-}
-
 .uploadButton {
   background: #095100;
   margin: 1em;
@@ -30,54 +23,29 @@
   width: 50%;
 }
 
-.fileListContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.fileListContainer ul {
-  width: 100%;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.fileListContainer ul li {
-  display: flex;
-  align-items: center;
-  height: 5em;
-  background: #222;
-  border-radius: 1em;
-  padding: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.fileListContainer ul li .imgContainer {
-  height: 100%;
-  aspect-ratio: 1;
+.imgContainer {
   overflow: hidden;
-  border-radius: 1em;
+  width: 5em;
+  height: 5em;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
-.fileListContainer ul li .imgContainer img {
+.imgContainer img {
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.fileListContainer ul li .imgInfo {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.progressBar {
+  width: 100%;
+  height: 2em;
+  background-color: #333;
+  border-radius: 2em;
   overflow: hidden;
-  padding-left: 1em;
 }
-.fileListContainer ul li .imgInfo p {
-  margin: 0;
-  padding: 0;
+.progress {
+  height: 100%;
+  position: relative;
+  background-color: green;
+  transition: width 0.3s ease;
 }
-.fileListContainer ul li button {
-  margin-left: auto;
-  text-align: center;
-}
-

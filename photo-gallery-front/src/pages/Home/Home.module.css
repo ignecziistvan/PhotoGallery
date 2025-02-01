@@ -1,217 +1,59 @@
-.introduce {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1em;
-  min-height: 50vh;
-}
-.introduce .imgContainer {
-  display: flex;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.introduce .imgContainer img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-.introduce h1 {
-  text-align: center;
-}
-.introduce p {
-  max-width: 60%;
-  font-size: 1.2em;
-  line-height: 1.2;
-  text-align: center;
-  margin-top: 0.5em;
-  color: #b7b7b7;
-}
-
-
-.categoriesSection {
-  position: relative;
+.page {
   height: 100vh;
-  display: flex;
-  gap: 1em;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding: 1em;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  color: #fff;
 }
-
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
+.page section {
+  scroll-snap-align: end;
+}
+.hero {
   width: 100%;
-  height: 100%;
-  z-index: -1;
-  filter: blur(10px) brightness(70%);
-  transition: background 0.5s;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-
-
-.selectedCategoryInfo {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.hero div {
   width: 50%;
-  padding-left: 5em;
-}
-.selectedCategoryInfo h1 {
-  margin: 0;
-  margin-top: 2em;
-  font-size: 5em;
-}
-.selectedCategoryInfo p {
-  font-size: 1.2em;
-  text-align: justify;
-}
-.selectedCategoryInfo a {
-  margin-top: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #666;
-  background: #00000050;
-  padding: 0.8em 2em;
-  border-radius: 2em;
-  width: 40%;
-  transition: background 0.2s;
-}
-.selectedCategoryInfo a:hover,
-.selectedCategoryInfo a:focus {
-  background: #000;
-  color: #fff;
-}
-
-.categoriesContainer {
-  position: relative;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 5em;
-  width: 44em;
-  overflow: hidden;
-}
-
-.categoryList {
-  display: flex;
-  align-items: flex-end;
-  gap: 2em;
-  margin: 1em;
-  padding-bottom: 1em;
-  transition: transform 0.4s ease;
-  width: 100%;
-}
-
-.categorySelected,
-.categoryUnselected {
-  display: flex;
-  flex-shrink: 0;
-  width: 30%;
-  aspect-ratio: 0.9;
-  overflow: hidden;
-  text-align: center;
-  border-radius: 2em;
-  box-shadow: 2px 2px 10px #00000050;
-  transition: aspect-ratio 0.4s;
-}
-.categorySelected img,
-.categoryUnselected img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  object-position: center;
-}
-
-.categorySelected {
-  aspect-ratio: 0.8;
-}
-
-.categoryUnselected {
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.categoriesPagination {
-  display: flex;
-  width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 2em;
-}
-.categoriesPagination button {
-  display: flex;
-  width: 3em;
-  height: 3em;
-  padding: 0.8em;
-  align-items: center;
-  justify-content: center;
-  background: #00000080;
-  color: #fff;
-  border-radius: 50%;
-}
-.categoriesPagination button:disabled {
-  color: #666;
-  cursor: auto;
-  opacity: 0.6;
-}
-.categoriesPagination button:disabled:hover {
-  border: 0;
+  margin-inline: 4em;
+
+  h1 {
+    margin-top: 2em;
+    font-size: 5em;
+  }
+  h3 {
+    font-size: 1.5em;
+  }
+  a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    font-size: 1.2em;
+  }
 }
 
 
+@media (max-width: 768px) {
+  .hero div {
+    padding-top: 4em;
+    width: auto;
+    margin-inline: 0;
+    margin: 1em;
 
-
-
-
-@media(max-width: 768px) {
-  .categoriesSection {
-    height: 100vh;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .selectedCategoryInfo {
-    height: 50%;
-    width: 100%;
-    padding-left: 0;
-    align-items: center;
-    overflow-y: scroll;
-  }
-  .selectedCategoryInfo h1 {
-    font-size: 1.8em;
-    margin-top: 0;
-    margin: 0.5em;
-    text-align: center;
-  }
-  .selectedCategoryInfo p {
-    font-size: 1.1em;
-  }
-  .selectedCategoryInfo a {
-    margin-top: auto;
-  }
-
-  .categoriesContainer {
-    width: 100%;
-    height: 50%;
-    margin-bottom: 1em;
-    justify-content: flex-end;
-  }
-
-  .categoryList {
-    gap: 1em;
-    height: 100%;
-  }
-  .categoryList .categorySelected,
-  .categoryList .categoryUnselected {
-    height: 90%;
-    width: 60%;
-  }
-  .categoryList .categorySelected {
-    height: 100%;
+    h1 {
+      margin-top: 0;
+      font-size: 3em;
+    }
+    h3 {
+      font-size: 1.2em;
+      color: #fff;
+    }
   }
 }
