@@ -1,6 +1,8 @@
 package projects.gallery.photo_gallery.service.media;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import projects.gallery.photo_gallery.dto.request.CategoryRequest;
 import projects.gallery.photo_gallery.dto.response.CategoryResponse;
@@ -11,16 +13,24 @@ import projects.gallery.photo_gallery.model.media.Category;
 import projects.gallery.photo_gallery.model.media.Photo;
 import projects.gallery.photo_gallery.repository.media.CategoryRepository;
 import projects.gallery.photo_gallery.repository.media.PhotoRepository;
-import projects.gallery.photo_gallery.service.interfaces.MediaService;
+import projects.gallery.photo_gallery.service.interfaces.media.MediaService;
 
 import java.util.List;
 
+@Deprecated
 @Service
 public class MediaServiceImpl implements MediaService {
+    private final CategoryRepository categoryRepository;
+    private final PhotoRepository photoRepository;
+    private final MessageSource messageSource;
+
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private PhotoRepository photoRepository;
+    public MediaServiceImpl(CategoryRepository categoryRepository, PhotoRepository photoRepository, MessageSource messageSource) {
+        this.categoryRepository = categoryRepository;
+        this.photoRepository = photoRepository;
+        this.messageSource = messageSource;
+    }
+
 
     @Override
     public CategoryResponse getCategoryById(Long id) {
@@ -41,30 +51,48 @@ public class MediaServiceImpl implements MediaService {
     public PhotoResponse getPhotoById(Long id) {
         return new PhotoResponse(
                 photoRepository.findById(id).orElseThrow(
-                    () -> new NotFoundException("Photo was not found")
+                        () -> new NotFoundException(
+                                messageSource.getMessage("photo-not-found", null, "Photo was not found", LocaleContextHolder.getLocale())
+                        )
                 )
         );
     }
 
+    @Deprecated
     @Override
-    public void createCategory(CategoryRequest dto) {
-        if (dto.getName() != null && dto.getName().isBlank()) {
-            throw new BadRequestException("Category name cannot be empty");
+    public Category createCategory(CategoryRequest dto) {
+        if (dto.getName() == null || dto.getName().isBlank()) {
+            throw new BadRequestException(messageSource.getMessage(
+                    "category-name-cannot-be-empty",
+                    null,
+                    "Category name must be provided",
+                    LocaleContextHolder.getLocale()
+            ));
         }
 
         Category category = new Category(dto.getName());
 
-        if (dto.getDescription() != null && !dto.getDescription().isBlank()) {
+        if (dto.getDescription() == null || !dto.getDescription().isBlank()) {
             if (dto.getDescription().length() > 500) {
-                throw new BadRequestException("Max length for description is 500 characters");
+                throw new BadRequestException(messageSource.getMessage(
+                        "max-length-description-500",
+                        null,
+                        "Max length for description is 500",
+                        LocaleContextHolder.getLocale()
+                ));
             } else category.setDescription(dto.getDescription());
         }
 
         if (categoryRepository.findByAccessUrl(category.getAccessUrl()).isPresent()) {
-            throw new BadRequestException("This category already exists by Access-URL");
+            throw new BadRequestException(messageSource.getMessage(
+                    "category-already-exists-by-access-url",
+                    null,
+                    "This category already exists by Access-URL",
+                    LocaleContextHolder.getLocale()
+            ));
         }
 
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -89,11 +117,21 @@ public class MediaServiceImpl implements MediaService {
 
         if (dto.getThumbnailPhotoId() != null) {
             Photo thumbPhoto = photoRepository.findById(dto.getThumbnailPhotoId()).orElseThrow(
-                    () -> new NotFoundException("Thumbnail photo was not found by ID")
+                    () -> new NotFoundException(messageSource.getMessage(
+                            "thumbnail-photo-not-found",
+                            null,
+                            "Thumbnail photo was not found by ID",
+                            LocaleContextHolder.getLocale()
+                    ))
             );
 
             if (!category.getPhotos().contains(thumbPhoto)) {
-                throw new BadRequestException("The selected photo is not related to this category");
+                throw new BadRequestException(messageSource.getMessage(
+                        "photo-not-belong-to-category",
+                        null,
+                        "The selected photo does not belong to this category",
+                        LocaleContextHolder.getLocale()
+                ));
             }
 
             if (category.getThumbnailPhoto() == null) {
@@ -108,13 +146,23 @@ public class MediaServiceImpl implements MediaService {
         if (isChanged) {
             categoryRepository.save(category);
         } else {
-            throw new BadRequestException("Nothing to change");
+            throw new BadRequestException(messageSource.getMessage(
+                    "nothing-to-change",
+                    null,
+                    "Nothing to change",
+                    LocaleContextHolder.getLocale()
+            ));
         }
     }
 
     private Category findCategory(Long id) {
         return categoryRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Category was not found")
+                () -> new NotFoundException(messageSource.getMessage(
+                        "category-not-found",
+                        null,
+                        "Category was not found",
+                        LocaleContextHolder.getLocale()
+                ))
         );
     }
 }

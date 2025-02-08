@@ -8,6 +8,7 @@ import { Category, PatchCategoryRequest } from '../../../models/Category';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faClose } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 export default function CategoryEditModule() {
   const [category, setCategory] = useState<Category>();
@@ -25,7 +26,6 @@ export default function CategoryEditModule() {
   const [modifiedThumbnail, setModifiedThumbnail] = useState<Photo>();
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -54,17 +54,15 @@ export default function CategoryEditModule() {
     e.preventDefault();
 
     setErrorMessage('');
-    setSuccess(false);
     setLoading(true);
 
     const response = await patchCategory(category?.id, form);
     if (response) {
       setErrorMessage(response);
-      setSuccess(false);
     } else {
-      setSuccess(true);
       setCategory(await getCategoryByAccessUrl(categoryAccessUrl));
       setEditing(false);
+      toast.success('Category has been modified');
     }
 
     setLoading(false);
@@ -120,7 +118,6 @@ export default function CategoryEditModule() {
             </div>
 
             {errorMessage && <p className={css.error}>{errorMessage}</p>}
-            {success && <p className={css.success}>Category has been modified</p>}
 
             <div className={css.btnContainer}>
               <button type='button' onClick={() => setEditing(false)}>Discard changes</button>

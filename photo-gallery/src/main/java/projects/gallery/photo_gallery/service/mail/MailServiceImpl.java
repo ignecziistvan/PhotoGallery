@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-@Service
+@Deprecated
+@Service("mailServiceV1")
 public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
     private final Environment env;
@@ -27,13 +28,13 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendMail(MailRequest dto) {
+        Map<String, String> errors = validateMail(dto);
+
+        if (!errors.isEmpty()) {
+            throw new BadRequestException("Error sending the message", errors);
+        }
+
         try {
-            Map<String, String> errors = validateMail(dto);
-
-            if (!errors.isEmpty()) {
-                throw new BadRequestException("Error sending the message", errors);
-            }
-
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(env.getProperty("admin.email"));
             message.setSubject("Private message received");

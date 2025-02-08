@@ -1,6 +1,8 @@
 package projects.gallery.photo_gallery.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,21 +22,42 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final MessageSource messageSource;
 
     @Autowired
-    public AuthServiceImpl(UserRepository userRepository, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthServiceImpl(UserRepository userRepository, JwtService jwtService, AuthenticationManager authenticationManager, MessageSource messageSource) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.messageSource = messageSource;
     }
 
     @Override
     public String login(LoginRequest dto) {
+        String authFailedText = messageSource.getMessage(
+                "authentication-failed",
+                null,
+                "Authentication failed",
+                LocaleContextHolder.getLocale()
+        );
+        String usernameText = messageSource.getMessage(
+                "username-not-exists",
+                null,
+                "Username does not exists",
+                LocaleContextHolder.getLocale()
+        );
+        String passwordText = messageSource.getMessage(
+                "invalid-password",
+                null,
+                "Invalid password",
+                LocaleContextHolder.getLocale()
+        );
+
         try {
             userRepository.findByUsername(dto.getUsername()).orElseThrow(
                     () -> new UnauthorizedException(
-                            "Authentication failed",
-                            Map.of("username", "User does not exist")
+                            authFailedText,
+                            Map.of("username", usernameText)
                     )
             );
             Authentication authentication = authenticationManager.authenticate(
@@ -47,8 +70,8 @@ public class AuthServiceImpl implements AuthService {
             return jwtService.createToken(authentication.getName());
         } catch (BadCredentialsException e) {
             throw new UnauthorizedException(
-                    "Authentication failed",
-                    Map.of("password", "Invalid password")
+                    authFailedText,
+                    Map.of("password", passwordText)
             );
         }
     }
@@ -61,7 +84,12 @@ public class AuthServiceImpl implements AuthService {
                     () -> new UnauthorizedException("Unauthenticated")
             );
         } catch (Exception e) {
-            throw new UnauthorizedException("You are unauthenticated");
+            throw new UnauthorizedException(messageSource.getMessage(
+                    "authentication-failed",
+                    null,
+                    "Authentication failed",
+                    LocaleContextHolder.getLocale()
+            ));
         }
     }
 }

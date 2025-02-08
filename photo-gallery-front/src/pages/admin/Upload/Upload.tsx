@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import ImageUploader from './ImageUploader/ImageUploader';
 import css from './Upload.module.css';
 import { Category } from '../../../models/Category';
 import { useNavigate } from 'react-router-dom';
 import { authenticate } from '../../../services/UserService';
 import { getCategories } from '../../../services/CategoryService';
+import ImageUploader from './ImageUploader/ImageUploader';
 
 export default function UploadComponent() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -29,7 +29,9 @@ export default function UploadComponent() {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = parseInt(e.target.value, 10);
+    
     const category = categories.find(c => c.id === selectedId);
+    
     if (category) {
       setSelectedCategory(category);
     }
@@ -51,8 +53,6 @@ export default function UploadComponent() {
                 </option>
               ))}
             </select>
-          </div>
-          <div className={css.imgUploadContainer}>
             <ImageUploader categoryId={selectedCategory.id} />
           </div>
         </>

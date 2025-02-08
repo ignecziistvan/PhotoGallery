@@ -5,15 +5,16 @@ import { User } from '../../models/User';
 
 import background from '../../assets/contact_bg.jpg';
 
-import { SocialIcon } from 'react-social-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons';
 import FormGroup from '../../components/FormGroup/FormGroup';
 import { Mail } from '../../models/Mail';
-import { sendMail } from './ContactService';
+import { sendMail } from '../../services/MailService';
+import { useTranslation } from 'react-i18next';
 
 
 export default function ContactComponent() {
+  const { t } = useTranslation();
   const [owner, setOwner] = useState<User | undefined>();
   const [form, setForm] = useState<Mail>({
     name: '',
@@ -49,12 +50,12 @@ export default function ContactComponent() {
     });
 
     const response = await sendMail(form);
+
+
     if (response) {
-      setFormErrors(response);
-      setGeneralErrorMessage('');
-      if (Array.isArray(response)) {
-        setSendSuccess(false);
-      } else setGeneralErrorMessage(response);
+      if (response.errors) setFormErrors(response.errors);
+      if (response.error) setGeneralErrorMessage(response.error);
+      if (!response.errors && !response.error) setGeneralErrorMessage('An error has occurred');
     } else {
       setSendSuccess(true);
     }
@@ -71,12 +72,8 @@ export default function ContactComponent() {
         }}
       />
       <div className={css.intro}>
-        <h1>Contact me</h1>
-        <p>
-          Feel free to reach out to me for any questions, collaborations, or just to talk.
-          <br />
-          I would be happy to connect with you!
-        </p>
+        <h1>{t('contact.h1')}</h1>
+        <p>{t('contact.p1')}<br />{t('contact.p2')}</p>
       </div>
 
       <div className={css.flex}>
@@ -91,32 +88,54 @@ export default function ContactComponent() {
             </div>
           </div>
           <div className={css.info}>
-            <SocialIcon url={owner?.github} bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
+            <div className={css.svgContainer}>
+              <a href={owner?.linkedIn}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                </svg>
+              </a>
+            </div>
             <div className={css.flexCol}>
-              <h3>Github</h3>
-              <p>See my github portfolio</p>
+              <h3>LinkedIn</h3>
+              <p>{t('contact.linkedin')}</p>
             </div>
           </div>
           <div className={css.info}>
-            <SocialIcon url={owner?.linkedIn} bgColor="white" fgColor="black" className={css.icon} style={{ width: "2.5em", height: "2.5em" }} />
+            <div className={css.svgContainer}>
+              <a href={owner?.github}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+              </a>
+            </div>
             <div className={css.flexCol}>
-              <h3>LinkedIn</h3>
-              <p>See my LinkedIn profile</p>
+              <h3>Github</h3>
+              <p>{t('contact.github')}</p>
             </div>
           </div>
         </div>
         {sendSuccess ? (
           <div className={css.msgSuccessBox}>
-            <h1>Message has been sent</h1>
+            <h1>{t('contact.msg_sent')}</h1>
           </div>
         ) : (
           <form action="#" method="post" onSubmit={submitForm}>
-            <h1>Send Message</h1>
+            <h1>{t('contact.form_h1')}</h1>
             <FormGroup 
               label=''
               id='name'  
               type='text'
-              placeholder='Your full name'
+              placeholder={t('contact.form_name_ph')}
               value={form.name}
               onChange={(e) =>
                 setForm((prevForm) => ({
@@ -130,7 +149,7 @@ export default function ContactComponent() {
               label=''
               id='email'  
               type='email'
-              placeholder='your@email.address'
+              placeholder={t('contact.form_email_ph')}
               value={form.email}
               onChange={(e) =>
                 setForm((prevForm) => ({
@@ -141,7 +160,7 @@ export default function ContactComponent() {
               error={formErrors.email}
             />
             <div className={css.formGroup}>
-              <p>{form.message.length} / 1000 characters</p>
+              <p>{form.message.length} / 1000 {t('contact.form_msg_char_counter')}</p>
               <textarea 
                 value={form.message}
                 onChange={(e) =>
@@ -150,7 +169,7 @@ export default function ContactComponent() {
                     message: e.target.value
                   }))
                 }
-                placeholder='Message'
+                placeholder={t('contact.form_message_ph')}
               />
               {formErrors.message && (
                 <ul className={css.errors}>
@@ -163,7 +182,7 @@ export default function ContactComponent() {
             <button 
               type='submit'
               disabled={loading}
-            >{loading ? "Sending..." : "Send"}</button>
+            >{loading ? t('contact.form_btn_sending') : t('contact.form_btn_send')}</button>
           </form>
         )}
       </div>

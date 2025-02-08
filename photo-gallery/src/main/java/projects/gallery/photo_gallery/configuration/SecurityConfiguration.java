@@ -46,11 +46,17 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(
                         request -> request
+                                .requestMatchers("/").permitAll()
                                 .requestMatchers("/api/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/media/**").permitAll()
-                                .requestMatchers("/api/mail/send").permitAll()
+                                .requestMatchers("/api/media/open/**").permitAll()
+                                .requestMatchers("/api/mail/**").permitAll()
                                 .requestMatchers("/api/owner").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
+                                .requestMatchers(
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
