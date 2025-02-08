@@ -21,9 +21,11 @@ export async function getCategoryByAccessUrl(accessUrl?: string): Promise<Catego
 
 export async function createCategory(form: CreateCategoryRequest) {
   try {
-    await httpRequest.post('/media/auth/v2/categories/', form);
+    await httpRequest.post('/media/auth/v2/categories', form);
     return null;
   } catch (error: any) {
+    console.log(error);
+    
     return error.response.data.error;
   }
 }

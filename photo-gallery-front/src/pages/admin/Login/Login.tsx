@@ -2,24 +2,23 @@ import { useState } from 'react';
 import css from './Login.module.css';
 import handleErrors from './LoginService';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../../services/UserService';
+import { useAuth } from '../../../security/AuthContext';
 
 export default function LoginComponent() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { login: loginInAuthContext } = useAuth();
   const navigate = useNavigate();
 
   async function submitForm(e: React.FormEvent) {
     e.preventDefault();
     setErrors({});
 
-    try {
-      await login(username, password);
-      navigate('/admin/dashboard');
-    } catch (e) {
-      setErrors(handleErrors(e));
-    }
+    const errors = await loginInAuthContext(username, password);
+    if (errors) {
+      setErrors(handleErrors(errors));
+    } else navigate('/admin/dashboard');
   };
 
   return (

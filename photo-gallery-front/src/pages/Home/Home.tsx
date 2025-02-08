@@ -1,5 +1,5 @@
 import css from './Home.module.css';
-import hero_img from '../../assets/welcome_hero.jpg';
+import hero_img from '../../assets/header.jpg';
 import { useEffect, useState } from 'react';
 import { Category } from '../../models/Category';
 import { getCategories } from '../../services/CategoryService';
@@ -31,7 +31,7 @@ export default function HomePage() {
       >
         <div>
           <h1>{t('welcome.h1')}</h1>
-          <h3>{t('welcome.h3')}</h3>
+          <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, fugit tempora ad odit laboriosam dolores repudiandae debitis accusamus aspernatur. Fuga accusamus voluptatibus ullam eos facere obcaecati sint quaerat deleniti sapiente.</h3>
           <Link to={'https://www.github.com/ignecziistvan/PhotoGallery'}>{t('welcome.a_github_sc')}</Link>
         </div>
       </section>

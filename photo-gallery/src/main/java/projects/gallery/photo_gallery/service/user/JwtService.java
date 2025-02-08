@@ -5,10 +5,12 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import projects.gallery.photo_gallery.exception.UnauthorizedException;
 
 
 import javax.crypto.SecretKey;
@@ -51,11 +53,15 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        JwtParser parser = Jwts.parser()
-                .verifyWith(getKey())
-                .build();
+        try {
+            JwtParser parser = Jwts.parser()
+                    .verifyWith(getKey())
+                    .build();
 
-        return parser.parseSignedClaims(token).getPayload();
+            return parser.parseSignedClaims(token).getPayload();
+        } catch (SignatureException e) {
+            throw new UnauthorizedException("JWT signature could not be accepted");
+        }
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
