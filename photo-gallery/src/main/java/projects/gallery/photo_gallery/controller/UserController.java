@@ -1,6 +1,7 @@
 package projects.gallery.photo_gallery.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +28,8 @@ public class UserController {
     }
 
     @GetMapping("/api/authenticate")
-    public UserResponse authenticate() {
-        return new UserResponse(authService.authenticate());
+    public UserResponse authenticate(Authentication authentication) {
+        return new UserResponse(authService.authenticate(authentication));
     }
 
     @GetMapping("/api/owner")

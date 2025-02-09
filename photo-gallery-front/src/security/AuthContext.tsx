@@ -5,7 +5,7 @@ import httpRequest from "../interceptors/HttpRequest";
 
 interface AuthContextType {
   token: string | null;
-  login: (username: string, password: string) => Promise<boolean>;
+  login: (username: string, password: string) => Promise<any>;
   logout: () => void;
 }
 

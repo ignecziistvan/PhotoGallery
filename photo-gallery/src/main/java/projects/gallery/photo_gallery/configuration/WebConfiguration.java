@@ -9,9 +9,9 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("https://photogallery.ignecziistvan.hu", "http://localhost:5173")
+                .allowedOrigins("http://photo-gallery-frontend.s3-website.eu-north-1.amazonaws.com", "http://localhost:5173")
                 .allowCredentials(true)
                 .allowedHeaders("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD");
+                .allowedMethods("*");
     }
 }

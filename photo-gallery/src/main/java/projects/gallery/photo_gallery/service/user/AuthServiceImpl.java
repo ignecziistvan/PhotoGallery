@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import projects.gallery.photo_gallery.dto.request.LoginRequest;
 import projects.gallery.photo_gallery.exception.UnauthorizedException;
@@ -67,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
                     )
             );
 
-            return jwtService.createToken(authentication.getName());
+            return jwtService.createToken(authentication);
         } catch (BadCredentialsException e) {
             throw new UnauthorizedException(
                     authFailedText,
@@ -77,10 +76,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User authenticate() {
+    public User authenticate(Authentication authentication) {
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            return userRepository.findByUsername(auth.getName()).orElseThrow(
+            return userRepository.findByUsername(authentication.getName()).orElseThrow(
                     () -> new UnauthorizedException("Unauthenticated")
             );
         } catch (Exception e) {

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -16,19 +17,16 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import projects.gallery.photo_gallery.service.interfaces.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final UserService userService;
-    private final JwtFilter jwtFilter;
 
     @Autowired
-    public SecurityConfiguration(UserService userService, JwtFilter jwtFilter) {
+    public SecurityConfiguration(UserService userService) {
         this.userService = userService;
-        this.jwtFilter = jwtFilter;
     }
 
     @Bean
@@ -61,7 +59,7 @@ public class SecurityConfiguration {
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2ResourceServer(config -> config.jwt(Customizer.withDefaults()))
                 .build();
     }
 
