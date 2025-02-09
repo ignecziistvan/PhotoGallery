@@ -4,8 +4,8 @@
   align-items: center;
   justify-content: space-between;
   height: 4em;
-  width: 100vw;
-  background-color: #ffffff;
+  width: 100%;
+  background-color: #00000030;
   box-shadow: 0 -10px 20px #000000c3;
   z-index: 10;
 }
@@ -24,7 +24,6 @@
 .link {
   position: relative;
   cursor: pointer;
-  color: #000;
   text-decoration: none;
 }
 .link::after {
@@ -34,7 +33,7 @@
   bottom: -2px;
   width: 0;
   height: 2px;
-  background-color: #000;
+  background-color: #fff;
   transition: width 0.2s ease;
 }
 .link:hover::after {
@@ -43,13 +42,13 @@
 
 .link:hover,
 .activeLink:hover {
-  color: #000;
+  color: #fff;
 }
 
 .activeLink {
   position: relative;
   cursor: pointer;
-  color: #000;
+  color: #fff;
   text-decoration: none;
 }
 .activeLink::after {
@@ -59,6 +58,6 @@
   bottom: -2px;
   width: 100%;
   height: 2px;
-  background-color: #000;
+  background-color: #fff;
   transition: width 0.2s ease;
 }

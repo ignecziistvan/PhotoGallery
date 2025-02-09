@@ -12,7 +12,8 @@ export default function ImageDropZone({ setFiles } : { setFiles:Dispatch<SetStat
     accept: {
       'image/jpg': [],
       'image/jpeg': [],
-      'image/png': []
+      'image/png': [],
+      'image/webp': []
     },
     multiple: true
   });

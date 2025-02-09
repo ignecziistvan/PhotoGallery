@@ -13,29 +13,36 @@ import CategoriesPage from './pages/Categories/Categories.tsx'
 import HomePage from './pages/Home/Home.tsx'
 import Navbar from './components/Navbar/Navbar.tsx'
 import NotFoundPage from './pages/404/NotFoundPage.tsx'
+import { AuthProvider } from './security/AuthContext.tsx'
+import PrivateRoute from './pages/admin/PrivateRotue.tsx'
 
 export default function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/categories' element={<CategoriesPage />} />
-        <Route path='/categories/:categoryAccessUrl' element={<GalleryComponent />} />
-        <Route path='/contact' element={<ContactComponent />} />
-        
-        <Route path='/login' element={<LoginComponent />} />
+    <AuthProvider>
+      <Router>
+        <Navbar />
 
-        <Route path='/admin/dashboard' element={<DashboardComponent />} />
-        <Route path='/admin/upload' element={<UploadComponent />} />
-        <Route path='/admin/categories' element={<CategoriesModule />} />
-        <Route path='/admin/categories/create' element={<CategoryCreateComponent />} />
-        <Route path='/admin/categories/:categoryAccessUrl' element={<CategoryEditModule />} />
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/categories' element={<CategoriesPage />} />
+          <Route path='/categories/:categoryAccessUrl' element={<GalleryComponent />} />
+          <Route path='/contact' element={<ContactComponent />} />
+          
+          <Route path='/login' element={<LoginComponent />} />
 
-        <Route path='*' element={<NotFoundPage />} />
-      </Routes>
+          <Route path='/admin/*' element={<PrivateRoute />}>
+            <Route path='dashboard' element={<DashboardComponent />} />
+            <Route path='upload' element={<UploadComponent />} />
+            <Route path='categories' element={<CategoriesModule />} />
+            <Route path='categories/create' element={<CategoryCreateComponent />} />
+            <Route path='categories/:categoryAccessUrl' element={<CategoryEditModule />} />
+          </Route>
 
-      <ToastContainer position="bottom-right" autoClose={3000} />
-    </Router>
+          <Route path='*' element={<NotFoundPage />} />
+        </Routes>
+
+        <ToastContainer position="bottom-right" autoClose={3000} />
+      </Router>
+    </AuthProvider>
   );
 }

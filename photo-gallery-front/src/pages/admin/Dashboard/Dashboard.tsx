@@ -1,34 +1,17 @@
-import { useEffect } from 'react';
 import css from './Dashboard.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
-import { authenticate, logout } from '../../../services/UserService';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function DashboardComponent() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    async function init() {
-      try {
-        const response = await authenticate();
-        if (!response) navigate('/login');
-      } catch (error) {
-        navigate('/login');
-      }
-    };
-
-    init();
-  }, []);
-
   return (
     <div className={css.page}>
       <section className={css.logout}>
-        <button onClick={() => logout()}>
+        <Link to={'/logout'}>
           <FontAwesomeIcon icon={faBackward} />
           Logout
-        </button>
+        </Link>
       </section>
 
       <section className={css.options}>

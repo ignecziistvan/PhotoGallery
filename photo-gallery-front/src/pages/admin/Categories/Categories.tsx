@@ -3,26 +3,17 @@ import css from './Categories.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import { authenticate } from '../../../services/UserService';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { deleteCategory, getCategories } from '../../../services/CategoryService';
 import { Category } from '../../../models/Category';
 
 export default function CategoriesModule() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const navigate = useNavigate();
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     async function init() {
-      try {
-        const response = await authenticate();
-        if (!response) navigate('/login');
-      } catch (error) {
-        navigate('/login');
-      }
-
       const categories = await getCategories();
       setCategories(categories);
     };

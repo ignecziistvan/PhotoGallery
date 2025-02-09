@@ -2,7 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const httpRequest = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  //baseUrl: 'http://localhost:5000/api',
+  baseURL: 'http://photo-gallery-api-demo.eu-north-1.elasticbeanstalk.com/api',
   withCredentials: true
 });
 
